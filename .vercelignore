@@ -1,0 +1,14 @@
+# Vercel ignore
+node_modules
+.git
+.vscode
+config
+scripts
+test-data.html
+test-menu.html
+test-navegacion.js
+server.js
+package.json
+package-lock.json
+README.md
+.gitignore
