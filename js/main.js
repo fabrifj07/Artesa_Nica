@@ -1057,6 +1057,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Configurar los eventos del menú de perfil
     setupProfileMenu();
 
+    // Actualizar el total de compras
+    updateTotalPurchases();
+
     // Verificar si hay un hash de pestaña en la URL
     const hash = window.location.hash.substring(1);
     if (hash.startsWith("perfil/")) {
@@ -1133,6 +1136,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 </button>
             </div>
         `;
+  }
+
+  function updateTotalPurchases() {
+    if (!currentUser || !currentUser.historialCompras) return;
+
+    // Calculate total from all purchases
+    const totalPurchases = currentUser.historialCompras.reduce(
+      (total, order) => total + (order.total || 0),
+      0
+    );
+
+    // Update the UI
+    const balanceAmount = document.querySelector('.balance-amount');
+    if (balanceAmount) {
+      balanceAmount.textContent = `C$${totalPurchases.toFixed(2)}`;
+    }
   }
 
   function renderPurchaseHistory() {
