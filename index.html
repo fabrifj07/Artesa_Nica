@@ -25,7 +25,7 @@
        =================================================================== -->
     <nav class="navbar">
         <div class="container">
-            <a href="#" id="back-button" class="navbar-brand hidden back-button" title="Volver a la página anterior" data-i18n-attr="title=nav.back"><i class="fas fa-arrow-left"></i> <span data-i18n="nav.back">Volver</span></a>
+            <a href="#" id="back-button" class="navbar-brand hidden back-button" onclick="NavigationModule.goBack(); return false;" title="Volver a la página anterior" data-i18n-attr="title=nav.back"><i class="fas fa-arrow-left"></i> <span data-i18n="nav.back">Volver</span></a>
             <a href="#" id="logo-link" class="navbar-brand" title="Ir a la página de inicio">Artesanica<img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Artesanica Logo" class="navbar-brand-img"></a>
             
             <div class="navbar-icons">
@@ -91,7 +91,7 @@
                     <h2 class="section-title main-section-title" data-i18n="sections.featuredProducts">Productos Destacados</h2>
                     <div id="productos-container" class="grid-container grid-products"></div>
                     <div style="text-align: right; margin-top: 1rem;">
-                        <a class="btn btn-text ver-mas-link" href="#" onclick="app.navigateTo('productos'); return false;"><span data-i18n="actions.seeMoreProducts">Ver más productos</span> <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i></a>
+                        <a class="btn btn-text ver-mas-link" href="productos.html"><span data-i18n="actions.seeMoreProducts">Ver más productos</span> <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i></a>
                     </div>
                 </div>
             </section>
@@ -100,7 +100,7 @@
                     <h2 class="section-title main-section-title" data-i18n="sections.featuredStores">Tiendas Destacadas</h2>
                     <div id="tiendas-container" class="grid-container grid-stores"></div>
                     <div style="text-align: right; margin-top: 1rem;">
-                        <a class="btn btn-text ver-mas-link" href="#" onclick="app.navigateTo('mas-tiendas'); return false;"><span data-i18n="actions.seeMoreStores">Ver más tiendas</span> <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i></a>
+                        <a class="btn btn-text ver-mas-link" href="tiendas.html"><span data-i18n="actions.seeMoreStores">Ver más tiendas</span> <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i></a>
                     </div>
                 </div>
             </section>
@@ -116,7 +116,7 @@
                         <p style="color: #555; margin-bottom: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;" data-i18n="news.description">
                             Descubre las últimas noticias, eventos y actualizaciones de la comunidad artesanal.
                         </p>
-                        <a href="#" onclick="app.navigateTo('noticias'); return false;" class="btn btn-primary" style="margin-top: 1rem;" data-i18n="[html]actions.viewNews">
+                        <a href="noticias.html" class="btn btn-primary" style="margin-top: 1rem;" data-i18n="[html]actions.viewNews">
                             <i class="fas fa-book-open" style="margin-right: 0.5rem;"></i> <span data-i18n="news.viewButton">Ver Noticias</span>
                         </a>
                     </div>
@@ -142,7 +142,7 @@
         <div id="seccion-perfil" class="seccion-principal">
             <div class="profile-container">
                 <div class="profile-header">
-                    <button class="back-button" onclick="history.back()">
+                    <button class="back-button" onclick="NavigationModule.goBack()">
                         <i class="fas fa-arrow-left"></i>
                     </button>
                     <h2 class="profile-title">Mi Perfil</h2>
@@ -246,16 +246,13 @@
                     </div>
                 </div>
             </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Sección de Mis Pedidos -->
         <div id="seccion-mis-pedidos" class="seccion-principal hidden">
             <div class="container">
                 <div class="profile-header">
-                    <button class="back-button" onclick="app.showSection('seccion-perfil')">
+                    <button class="back-button" onclick="NavigationModule.goBack()">
                         <i class="fas fa-arrow-left"></i>
                     </button>
                     <h2 class="profile-title">Mis Pedidos</h2>
@@ -272,7 +269,7 @@
         <div id="seccion-mis-favoritos" class="seccion-principal hidden">
             <div class="container">
                 <div class="profile-header">
-                    <button class="back-button" onclick="app.showSection('seccion-perfil')">
+                    <button class="back-button" onclick="NavigationModule.goBack()">
                         <i class="fas fa-arrow-left"></i>
                     </button>
                     <h2 class="profile-title">Mis Favoritos</h2>
@@ -334,28 +331,6 @@
                         <img class="modal-content" id="modalImage" style="margin: auto; display: block; max-width: 90%; max-height: 90%; position: relative; top: 50%; transform: translateY(-50%);">
                     </div>
                     
-                    <script>
-                        // Cerrar el modal al hacer clic en la X
-                        document.querySelector('.close').onclick = function() {
-                            document.getElementById('imageModal').style.display = 'none';
-                        }
-
-                        // Cerrar el modal al hacer clic fuera de la imagen
-                        window.onclick = function(event) {
-                            const modal = document.getElementById('imageModal');
-                            if (event.target == modal) {
-                                modal.style.display = 'none';
-                            }
-                        }
-                        
-                        // Cerrar con la tecla ESC
-                        document.addEventListener('keydown', function(event) {
-                            if (event.key === 'Escape') {
-                                document.getElementById('imageModal').style.display = 'none';
-                            }
-                        });
-                    </script>
-                    
                     <div style="color: #555; line-height: 1.6; max-width: 800px; margin: 0 auto 1.5rem; text-align: justify;">
                         <p>Gracias a la Feria de Salud "Mi Hospital en Mi Comunidad", impulsada por el Buen Gobierno Sandinista, las familias de Niquinohomo ahora tienen acceso a atención médica especializada en su propia comunidad.</p>
                     </div>
@@ -395,6 +370,55 @@
         
         <!-- Se eliminaron los botones de ver más -->
         
+        <!-- SECCIÓN DE NOTICIAS -->
+        <div id="seccion-noticias" class="seccion-principal hidden">
+            <div class="container section">
+                <h2 class="section-title" data-i18n="sections.news">Noticias y Eventos</h2>
+                <div class="grid-container" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+                    <!-- Noticia 1 -->
+                    <article class="card news-card">
+                        <img src="https://i.postimg.cc/gk4KW3sG/IMG-20251112-WA0053.jpg" alt="Feria Artesanal" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                        <div style="padding: 1.5rem;">
+                            <span style="color: var(--color-primary); font-size: 0.85rem; font-weight: 600;">22 Noviembre, 2025</span>
+                            <h3 style="margin: 0.5rem 0; font-size: 1.25rem;">Gran Feria Artesanal de Fin de Año</h3>
+                            <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">Prepárate para la feria más grande del año. Más de 50 artesanos locales presentarán sus nuevas colecciones navideñas en el parque central.</p>
+                            <a href="#" style="color: var(--color-primary); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+                                Leer más <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Noticia 2 -->
+                    <article class="card news-card">
+                        <img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Taller de Cerámica" style="width: 100%; height: 200px; object-fit: contain; background: #f8f9fa; border-radius: 8px 8px 0 0; padding: 1rem;">
+                        <div style="padding: 1.5rem;">
+                            <span style="color: var(--color-primary); font-size: 0.85rem; font-weight: 600;">15 Noviembre, 2025</span>
+                            <h3 style="margin: 0.5rem 0; font-size: 1.25rem;">Taller Gratuito de Cerámica para Niños</h3>
+                            <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">Fomentando la tradición en las nuevas generaciones. Inscríbete en los talleres de fin de semana impartidos por maestros artesanos.</p>
+                            <a href="#" style="color: var(--color-primary); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+                                Leer más <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Noticia 3 -->
+                    <article class="card news-card">
+                        <div style="height: 200px; background: linear-gradient(135deg, var(--color-primary), #2c3e50); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; border-radius: 8px 8px 0 0;">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <span style="color: var(--color-primary); font-size: 0.85rem; font-weight: 600;">10 Noviembre, 2025</span>
+                            <h3 style="margin: 0.5rem 0; font-size: 1.25rem;">Reconocimiento a la Excelencia Artesanal</h3>
+                            <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">Tres de nuestros artesanos han sido galardonados con el premio nacional a la innovación y preservación cultural.</p>
+                            <a href="#" style="color: var(--color-primary); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+                                Leer más <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+
         <!-- ===================================================================
            SECCIÓN DE CONFIGURACIÓN
            =================================================================== -->
@@ -426,7 +450,7 @@
     <nav class="bottom-nav">
         <ul class="nav-list">
             <li class="nav-item"><a href="#" id="nav-inicio" class="active"><i class="fas fa-home"></i><span data-i18n="bottom.home">Inicio</span></a></li>
-            <li class="nav-item"><a href="#" id="nav-noticias"><i class="fas fa-newspaper"></i><span>Noticias</span></a></li>
+            <li class="nav-item"><a href="noticias.html" id="nav-noticias"><i class="fas fa-newspaper"></i><span>Noticias</span></a></li>
             <li class="nav-item"><a href="#" id="nav-buscar"><i class="fas fa-search"></i><span data-i18n="bottom.search">Buscar</span></a></li>
             <li class="nav-item"><a href="#" id="nav-carrito"><i class="fas fa-shopping-cart"></i><span data-i18n="bottom.cart">Carrito</span><span id="contador-carrito" class="nav-counter hidden">0</span></a></li>
             <li class="nav-item"><a href="#" id="nav-perfil"><i class="fas fa-user"></i><span data-i18n="bottom.profile">Perfil</span></a></li>
@@ -498,11 +522,16 @@
     <script src="/js/i18n/i18n.js"></script>
     
     <!-- Cargar módulos de funcionalidad -->
+    <script src="/js/modules/utils.js"></script>
+    <script src="/js/modules/storage.js"></script>
+    <script src="/js/modules/auth.js"></script>
+    <script src="/js/modules/navigation.js"></script>
     <script src="/js/modules/categorias.js"></script>
     <script src="/js/modules/productos.js"></script>
     <script src="/js/modules/tiendas.js"></script>
     <script src="/js/modules/compartir.js"></script>
     <script src="/js/modules/configuracion.js"></script>
+    <script src="/js/modules/imageModal.js"></script>
     
     <!-- Cargar lógica principal de la aplicación -->
     <script src="/js/main.js"></script>

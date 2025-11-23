@@ -6,7 +6,7 @@
 (function() {
     'use strict';
 
-    const APP_URL = 'https://artesanica.netlify.app/';
+   const APP_URL = 'https://artesanica.vercel.app/';
     const APP_NAME = 'ArtesaNica';
     const APP_DESCRIPTION = 'Descubre productos artesanales únicos de Niquinohomo, Nicaragua';
 
@@ -205,12 +205,9 @@
 
     // Inicializar módulo
     function init() {
-        // Intentar usar Web Share API si está disponible
-        if (navigator.share) {
-            shareNative();
-        } else {
-            showShareModal();
-        }
+        // El módulo está listo, pero NO mostramos el modal automáticamente
+        // Solo se mostrará cuando el usuario haga clic en "Compartir web"
+        console.log('CompartirModule inicializado');
     }
 
     // Exponer API pública
@@ -227,3 +224,4 @@
     };
 
 })();
+

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias y Eventos - ArtesaNica</title>
+    <meta name="description" content="Mantente informado sobre las últimas noticias, ferias y eventos de la comunidad artesanal de Niquinohomo.">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://artesanica.vercel.app/noticias.html">
+    <meta property="og:title" content="Noticias Artesanales - ArtesaNica">
+    <meta property="og:description" content="Novedades de la comunidad artesanal.">
+    
+    <!-- Estilos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+        /* --- CORRECCIÓN NAVBAR --- */
+        
+        /* Estilos base (Móvil) */
+        .navbar .container {
+            gap: 0.5rem; /* Menor separación en móvil */
+            justify-content: space-between; /* Distribuir espacio */
+        }
+
+        .navbar-icons {
+            display: none; /* Ocultar íconos en móvil */
+        }
+
+        .navbar-brand {
+            font-size: 1.2rem; /* Texto más pequeño en móvil */
+        }
+
+        /* Estilos Escritorio (min-width: 768px) */
+        @media (min-width: 768px) {
+            .navbar .container {
+                gap: 1.5rem;
+            }
+
+            .navbar-icons {
+                display: flex; /* Mostrar íconos solo en escritorio */
+                align-items: center;
+                gap: 1.5rem;
+                margin-left: auto;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+        }
+
+        .nav-icon {
+            position: relative;
+            color: var(--color-texto);
+            font-size: 1.4rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .nav-icon:hover {
+            background-color: #f0f0f0;
+            color: var(--color-primario);
+        }
+
+        /* Badge del carrito */
+        .nav-icon .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: #e74c3c;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+        
+        .nav-icon .badge.hidden {
+            display: none;
+        }
+
+        /* --- ESTILOS NOTICIAS --- */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        .news-card-custom {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .news-card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .news-image-custom {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+        }
+        .news-content-custom {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .news-date-custom {
+            color: var(--color-primario);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .news-title-custom {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            color: var(--color-texto);
+        }
+        .news-excerpt-custom {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        .news-link-custom {
+            color: var(--color-primario);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+        .news-link-custom:hover {
+            text-decoration: underline;
+        }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand" title="Volver a inicio">
+                <i class="fas fa-arrow-left"></i> 
+                <span>Inicio</span>
+            </a>
+            <a href="index.html" class="navbar-brand">
+                Artesanica
+                <img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Logo" class="navbar-brand-img">
+            </a>
+            
+            <div class="navbar-icons">
+                <a href="index.html#buscar" class="nav-icon"><i class="fas fa-search"></i></a>
+                <a href="index.html#carrito" class="nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="contador-carrito-desk" class="badge hidden">0</span>
+                </a>
+                <a href="index.html#perfil" class="nav-icon"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+        <div class="container section" style="padding-top: 2rem;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-newspaper" style="color: var(--color-primario); margin-right: 0.5rem;"></i>
+                    Noticias y Eventos
+                </h1>
+                <p style="color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                    Entérate de lo último en la comunidad artesanal de Niquinohomo.
+                </p>
+            </div>
+
+            <div class="news-grid">
+                <!-- Noticia 1 -->
+                <!-- Noticia 1 -->
+                <article class="news-card-custom">
+                    <img src="https://i.postimg.cc/gk4KW3sG/IMG-20251112-WA0053.jpg" alt="Feria Artesanal" class="news-image-custom">
+                    <div class="news-content-custom">
+                        <span class="news-date-custom">22 Noviembre, 2025</span>
+                        <h2 class="news-title-custom">Gran Feria Artesanal de Fin de Año</h2>
+                        <p class="news-excerpt-custom">
+                            Prepárate para la feria más grande del año. Más de 50 artesanos locales presentarán sus nuevas colecciones navideñas en el parque central.
+                        </p>
+                        <a href="#" class="news-link-custom">Leer más <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <!-- Noticia 2 -->
+                <article class="news-card-custom">
+                    <img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Taller de Cerámica" class="news-image-custom" style="object-fit: contain; padding: 2rem; background: #f8f9fa;">
+                    <div class="news-content-custom">
+                        <span class="news-date-custom">15 Noviembre, 2025</span>
+                        <h2 class="news-title-custom">Taller Gratuito de Cerámica para Niños</h2>
+                        <p class="news-excerpt-custom">
+                            Fomentando la tradición en las nuevas generaciones. Inscríbete en los talleres de fin de semana impartidos por maestros artesanos.
+                        </p>
+                        <a href="#" class="news-link-custom">Leer más <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <!-- Noticia 3 -->
+                <article class="news-card-custom">
+                    <div style="height: 220px; background: linear-gradient(135deg, var(--color-primario), #2c3e50); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="news-content-custom">
+                        <span class="news-date-custom">10 Noviembre, 2025</span>
+                        <h2 class="news-title-custom">Reconocimiento a la Excelencia Artesanal</h2>
+                        <p class="news-excerpt-custom">
+                            Tres de nuestros artesanos han sido galardonados con el premio nacional a la innovación y preservación cultural.
+                        </p>
+                        <a href="#" class="news-link-custom">Leer más <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <!-- MODAL DE AUTENTICACIÓN -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-auth-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-tabs">
+                <button class="modal-tab active" id="login-tab">Iniciar Sesión</button>
+                <button class="modal-tab" id="register-tab">Registrarse</button>
+            </div>
+            <div id="login-content" class="modal-tab-content">
+                <form id="login-form">
+                    <input type="email" placeholder="Correo electrónico" required class="form-input">
+                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                </form>
+            </div>
+            <div id="register-content" class="modal-tab-content hidden">
+                <form id="register-form">
+                    <input type="text" placeholder="Nombre completo" required class="form-input">
+                    <input type="email" placeholder="Correo electrónico" required class="form-input">
+                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <div class="nav-item"><a href="index.html"><i class="fas fa-home"></i><span>Inicio</span></a></div>
+        <div class="nav-item"><a href="productos.html"><i class="fas fa-shopping-bag"></i><span>Productos</span></a></div>
+        <div class="nav-item"><a href="noticias.html" class="active"><i class="fas fa-newspaper"></i><span>Noticias</span></a></div>
+        <div class="nav-item"><a href="index.html#carrito"><i class="fas fa-shopping-cart"></i><span>Carrito</span><span id="contador-carrito" class="badge hidden">0</span></a></div>
+        <div class="nav-item"><a href="index.html#perfil"><i class="fas fa-user"></i><span>Perfil</span></a></div>
+    </nav>
+
+    <!-- SCRIPTS -->
+    <script src="js/modules/storage.js"></script>
+    <script>
+        // Actualizar contador de carrito
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.StorageModule) {
+                const currentUser = window.StorageModule.getCurrentUser();
+                const cartCount = currentUser?.carrito?.reduce((sum, item) => sum + (item.cantidad || 0), 0) || 0;
+                
+                document.querySelectorAll('#contador-carrito, #contador-carrito-desk').forEach(el => {
+                    if (el) {
+                        el.textContent = cartCount;
+                        el.style.display = cartCount > 0 ? 'flex' : 'none';
+                        el.classList.toggle('hidden', cartCount === 0);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

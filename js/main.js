@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeExtendedProducts();
     syncKnownProductsAndExtendNew();
     checkActiveSession();
-    updateAuthUI(); // Actualizar la interfaz de usuario después de cargar la sesión
+    syncCartCounter(); // Sincronizar contador del carrito después de cargar la sesión
     setupEventListeners();
     try {
       window.addEventListener("i18n:lang-changed", () => updateUI());
@@ -471,7 +471,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Actualizar la interfaz de usuario
-    updateAuthUI();
+    syncCartCounter(); // Actualizar contador después de cambiar favoritos
 
     // Si estamos en la sección de favoritos, actualizarla
     if (
@@ -506,7 +506,7 @@ document.addEventListener("DOMContentLoaded", () => {
     notify("cart.added", `'${name}' fue añadido al carrito.`, "exito", {
       name,
     });
-    updateAuthUI();
+    syncCartCounter(); // Actualizar contador después de agregar al carrito
     // Forzar la actualización de la vista del carrito
     if (currentSection === "carrito") {
       renderCartSection();
@@ -528,7 +528,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
       saveUsersToStorage();
-      updateAuthUI(); // Asegurar que se actualicen los contadores
+      syncCartCounter(); // Sincronizar contador después de actualizar cantidad
       updateUI();
     }
   }
@@ -657,20 +657,15 @@ document.addEventListener("DOMContentLoaded", () => {
         "exito"
       );
 
-      // 6. Actualizar la vista actual
-      if (currentSection === "carrito" || currentSection === "tienda") {
-        // Si estamos en el carrito o en una tienda, actualizar la vista
-        if (storeId) {
-          // Si es un pago de tienda específica, volver a la vista del carrito
-          navigateTo("carrito");
-        } else {
-          // Si es un pago general, actualizar la vista actual
-          updateUI();
-        }
-      } else {
-        // Si estamos en otra sección, solo actualizar el contador
-        updateCartCounter();
-      }
+      // 6. Redirigir a Mis Pedidos y mostrar el detalle de la orden
+      // Esto permite al usuario ver la lista de productos que acaba de comprar
+      showMisPedidos();
+      
+      // Abrir el detalle de la orden automáticamente después de un breve retraso
+      // para asegurar que la vista de pedidos se haya renderizado
+      setTimeout(() => {
+        showOrderDetails(order.id);
+      }, 500);
 
       // 7. Resetear estado de pago
       currentStoreForPayment = null;
@@ -783,7 +778,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         break;
     }
-    updateAuthUI();
+    syncCartCounter(); // Sincronizar contador al actualizar UI
     updateActiveNav(currentSection);
   }
 
@@ -1031,23 +1026,52 @@ document.addEventListener("DOMContentLoaded", () => {
     // Renderizar productos de la tienda
     renderProducts(storeProducts, "tienda-productos-grid");
 
-    // Añadir event listeners a los filtros
-    document.querySelectorAll(".filter-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const category = e.target.dataset.category;
-        // Actualizar estilo de botones de filtro
-        document
-          .querySelectorAll(".filter-btn")
-          .forEach((b) => b.classList.replace("btn-primary", "btn-secondary"));
-        e.target.classList.replace("btn-secondary", "btn-primary");
+    // =================================================================================
+    // DELEGACIÓN DE EVENTOS PARA FILTROS (previene memory leaks)
+    // =================================================================================
+    // En lugar de agregar listeners a cada botón, usamos delegación de eventos
+    // Esto significa que agregamos UN SOLO listener al contenedor padre
+    
+    // Primero, remover listener anterior si existe (prevenir duplicados)
+    const existingHandler = filtersContainer?._filterHandler;
+    if (existingHandler) {
+      filtersContainer.removeEventListener("click", existingHandler);
+    }
 
-        const filteredProducts =
-          category === "Todas"
-            ? storeProducts
-            : storeProducts.filter((p) => p.categoria === category);
-        renderProducts(filteredProducts, "tienda-productos-grid");
-      });
-    });
+    // Crear el handler de eventos
+    const filterHandler = (e) => {
+      // Verificar si el click fue en un botón de filtro
+      const filterBtn = e.target.closest(".filter-btn");
+      if (!filterBtn) return;
+
+      const category = filterBtn.dataset.category;
+      
+      // Actualizar estilos de botones (solo dentro de este contenedor)
+      filtersContainer
+        .querySelectorAll(".filter-btn")
+        .forEach((b) => {
+          b.classList.remove("btn-primary");
+          b.classList.add("btn-secondary");
+        });
+      
+      filterBtn.classList.remove("btn-secondary");
+      filterBtn.classList.add("btn-primary");
+
+      // Filtrar y renderizar productos
+      const filteredProducts =
+        category === "Todas"
+          ? storeProducts
+          : storeProducts.filter((p) => p.categoria === category);
+      
+      renderProducts(filteredProducts, "tienda-productos-grid");
+    };
+
+    // Agregar el listener al contenedor (delegación de eventos)
+    if (filtersContainer) {
+      filtersContainer.addEventListener("click", filterHandler);
+      // Guardar referencia para poder removerlo después
+      filtersContainer._filterHandler = filterHandler;
+    }
   }
 
   // =================================================================================
@@ -1328,7 +1352,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Actualizar la interfaz de usuario
-    updateAuthUI();
+    syncCartCounter(); // Actualizar contador después de cambios en favoritos
 
     // Guardar cambios en el almacenamiento
     saveUsersToStorage();
@@ -1772,43 +1796,48 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("register-form")?.reset();
   }
 
-  function updateAuthUI() {
-    // Solo actualizar el contador del carrito
+  // =================================================================================
+  // SINCRONIZACIÓN DE CONTADORES
+  // =================================================================================
+  
+  /**
+   * Función centralizada para sincronizar el contador del carrito
+   * Esta es la ÚNICA función que debe actualizar el contador del carrito
+   */
+  function syncCartCounter() {
+    // Calcular el total de productos en el carrito
     const cartCount =
       currentUser?.carrito?.reduce(
         (sum, item) => sum + (item.cantidad || 0),
         0
       ) || 0;
 
-    console.log("Actualizando UI - Carrito:", cartCount, "productos");
-    console.log(
-      "Elementos del carrito:",
-      document.querySelectorAll("#contador-carrito, #contador-carrito-desk")
-    );
-
-    // Ocultar contadores de favoritos ya que no son necesarios
-    document
-      .querySelectorAll("#contador-favoritos, #contador-favoritos-desk")
-      .forEach((el) => {
-        el.style.display = "none";
-      });
-
-    // Actualizar contador de carrito
+    // Actualizar todos los contadores de carrito (móvil y escritorio)
     document
       .querySelectorAll("#contador-carrito, #contador-carrito-desk")
       .forEach((el) => {
-        console.log("Actualizando contador de carrito:", el);
-        el.textContent = cartCount;
-        el.style.display = cartCount > 0 ? "flex" : "none";
-        el.classList.remove("hidden");
-
-        // Forzar actualización de estilos
-        el.style.opacity = "1";
-        el.style.visibility = "visible";
+        if (el) {
+          el.textContent = cartCount;
+          el.style.display = cartCount > 0 ? "flex" : "none";
+          el.classList.toggle("hidden", cartCount === 0);
+        }
       });
+  }
 
-    // Forzar repintado
-    document.body.offsetHeight;
+  /**
+   * Alias para compatibilidad con código existente
+   * @deprecated Usar syncCartCounter() en su lugar
+   */
+  function updateAuthUI() {
+    syncCartCounter();
+  }
+
+  /**
+   * Alias para compatibilidad con código existente
+   * @deprecated Usar syncCartCounter() en su lugar
+   */
+  function updateCartCounter() {
+    syncCartCounter();
   }
 
   function updateActiveNav(activeSection) {

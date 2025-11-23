@@ -3,102 +3,596 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Más Productos - Artesanica</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Productos Artesanales - ArtesaNica</title>
+    <meta name="description" content="Descubre todos nuestros productos artesanales únicos de Niquinohomo, Nicaragua. Cerámica, textiles, canastos y más.">
+    <meta name="keywords" content="artesanías, productos artesanales, Niquinohomo, Nicaragua, cerámica, textiles">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://artesanica.vercel.app/productos.html">
+    <meta property="og:title" content="Productos Artesanales - ArtesaNica">
+    <meta property="og:description" content="Descubre todos nuestros productos artesanales únicos de Niquinohomo, Nicaragua.">
+    <meta property="og:image" content="https://i.postimg.cc/gk4KW3sG/IMG-20251112-WA0053.jpg">
+    
+    <!-- Fuentes y Iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Hojas de Estilo -->
     <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components/categorias.css">
     <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+        /* Correcciones específicas para esta página */
+        .navbar .container {
+            gap: 1.5rem; /* Separación entre elementos del navbar */
+        }
+        
+        /* Asegurar grid correcto */
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .grid-products {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        /* Estilos de tarjeta independientes para evitar conflictos */
+        .product-card-custom {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+        
+        .product-card-custom:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+        }
+        
+        .product-image-wrapper {
+            position: relative;
+            padding-top: 100%; /* Aspect ratio 1:1 */
+            background: #f4f4f4;
+            overflow: hidden;
+        }
+        
+        .product-image-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .product-card-custom:hover .product-image-wrapper img {
+            transform: scale(1.05);
+        }
+        
+        .product-info-custom {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .product-name-custom {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--color-texto);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .product-store-custom {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 0.75rem;
+        }
+        
+        .product-footer-custom {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .product-price-custom {
+            font-weight: 700;
+            color: var(--color-primario);
+            font-size: 1.1rem;
+        }
+        
+        .btn-cart-custom {
+            background: var(--color-primario);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-cart-custom:hover {
+            background: var(--color-primario-oscuro, #2c3e50);
+        }
+
+        .favorite-btn-custom {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ccc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 2;
+            transition: all 0.2s;
+        }
+
+        .favorite-btn-custom.active {
+            color: #e74c3c;
+        }
+        
+        .favorite-btn-custom:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- CORRECCIÓN MODAL (Inferior Izquierda) --- */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex; /* Mostrar solo cuando tiene la clase show */
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* --- CORRECCIÓN NAVBAR --- */
+        
+        /* Estilos base (Móvil) */
+        .navbar .container {
+            gap: 0.5rem; /* Menor separación en móvil */
+            justify-content: space-between; /* Distribuir espacio */
+        }
+
+        .navbar-icons {
+            display: none; /* Ocultar íconos en móvil (usamos barra inferior) */
+        }
+
+        /* Ajuste del botón volver en móvil */
+        .navbar-brand {
+            font-size: 1.2rem; /* Texto más pequeño en móvil */
+        }
+
+        /* Estilos Escritorio (min-width: 768px) */
+        @media (min-width: 768px) {
+            .navbar .container {
+                gap: 1.5rem;
+            }
+
+            .navbar-icons {
+                display: flex; /* Mostrar íconos solo en escritorio */
+                align-items: center;
+                gap: 1.5rem;
+                margin-left: auto; /* Empujar a la derecha */
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+        }
+
+        .nav-icon {
+            position: relative;
+            color: var(--color-texto);
+            font-size: 1.4rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .nav-icon:hover {
+            background-color: #f0f0f0;
+            color: var(--color-primario);
+        }
+
+        /* Badge del carrito (Burbuja flotante) */
+        .nav-icon .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: #e74c3c;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+        
+        .nav-icon .badge.hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <!-- ===================================================================
-       HEADER
-       =================================================================== -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <a href="index.html">
-                        <img src="img/logo.png" alt="Artesanica">
-                    </a>
-                </div>
-                <nav class="main-nav">
-                    <ul class="nav-list">
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="#">Tienda</a></li>
-                        <li><a href="#">Categorías</a></li>
-                        <li><a href="#">Artistas</a></li>
-                        <li><a href="#">Contacto</a></li>
-                    </ul>
-                </nav>
-                <div class="header-actions">
-                    <button class="btn-icon" id="btn-buscar"><i class="fas fa-search"></i></button>
-                    <a href="#" class="btn-icon" id="btn-favoritos">
-                        <i class="fas fa-heart"></i>
-                        <span id="contador-favoritos-header" class="badge hidden">0</span>
-                    </a>
-                    <a href="#" class="btn-icon" id="btn-carrito">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span id="contador-carrito-header" class="badge">0</span>
-                    </a>
-                    <a href="#" class="btn btn-outline" id="btn-iniciar-sesion">Iniciar Sesión</a>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <!-- ===================================================================
-       CONTENIDO PRINCIPAL
-       =================================================================== -->
-    <main class="main-content">
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="navbar">
         <div class="container">
-            <div class="page-header">
-                <h1 class="page-title">Nuestros Productos</h1>
-                <a href="index.html" class="btn btn-outline">
-                    <i class="fas fa-arrow-left"></i> Volver al inicio
+            <a href="index.html" class="navbar-brand" title="Volver a inicio">
+                <i class="fas fa-arrow-left"></i> 
+                <span>Inicio</span>
+            </a>
+            <a href="index.html" class="navbar-brand" title="Ir a la página de inicio">
+                Artesanica
+                <img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Artesanica Logo" class="navbar-brand-img">
+            </a>
+            
+            <div class="navbar-icons">
+                <a href="index.html#buscar" class="nav-icon" title="Buscar productos">
+                    <i class="fas fa-search"></i>
+                </a>
+                <a href="index.html#carrito" class="nav-icon" title="Ver carrito">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="contador-carrito-desk" class="badge hidden">0</span>
+                </a>
+                <a href="index.html#perfil" class="nav-icon" title="Mi perfil">
+                    <i class="fas fa-user"></i>
                 </a>
             </div>
-            
-            <div class="store-container">
-                <div class="store-filters-container">
-                    <div id="filtros-productos">
-                        <!-- Filtros se cargarán aquí dinámicamente -->
-                    </div>
-                </div>
-                
-                <div id="productos-grid" class="grid-container grid-products">
-                    <!-- Los productos adicionales se cargarán aquí dinámicamente -->
-                </div>
-                
-                <div class="paginacion">
-                    <button class="btn btn-outline" id="btn-anterior">Anterior</button>
-                    <span id="pagina-actual">Página 1</span>
-                    <button class="btn btn-primary" id="btn-siguiente">Siguiente</button>
-                </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        <div class="container section" style="padding-top: 2rem;">
+            <!-- Encabezado de la página -->
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-shopping-bag" style="color: var(--color-primario); margin-right: 0.5rem;"></i>
+                    Todos los Productos
+                </h1>
+                <p style="color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                    Explora nuestra colección completa de productos artesanales hechos con amor y tradición
+                </p>
+            </div>
+
+            <!-- Filtros por categoría -->
+            <div id="categorias-container" class="grid-container grid-categories" style="margin-bottom: 2rem;">
+                <!-- Las categorías se renderizarán aquí dinámicamente -->
+            </div>
+
+            <!-- Grid de productos -->
+            <div id="todos-productos" class="grid-container grid-products">
+                <!-- Los productos se renderizarán aquí dinámicamente -->
+            </div>
+
+            <!-- Mensaje si no hay productos -->
+            <div id="empty-message" class="hidden" style="text-align: center; padding: 3rem; color: #999;">
+                <i class="fas fa-box-open" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                <p style="font-size: 1.2rem;">No hay productos disponibles en este momento</p>
             </div>
         </div>
     </main>
 
-    <!-- ===================================================================
-       FOOTER
-       =================================================================== -->
-    <footer class="footer">
-        <div class="container">
-            <p class="footer-bottom">&copy; 2025 Artesanica. Todos los derechos reservados.</p>
+    <!-- NAVEGACIÓN INFERIOR (MÓVIL) -->
+    <nav class="bottom-nav">
+        <div class="nav-item">
+            <a href="index.html" id="nav-inicio">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
         </div>
-    </footer>
+        <div class="nav-item">
+            <a href="productos.html" id="nav-productos" class="active">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Productos</span>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="index.html#buscar" id="nav-buscar">
+                <i class="fas fa-search"></i>
+                <span>Buscar</span>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="index.html#carrito" id="nav-carrito">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Carrito</span>
+                <span id="contador-carrito" class="badge hidden">0</span>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="index.html#perfil" id="nav-perfil">
+                <i class="fas fa-user"></i>
+                <span>Perfil</span>
+            </a>
+        </div>
+    </nav>
 
-    <!-- ===================================================================
-       JAVASCRIPT
-       =================================================================== -->
-    <script src="js/main.js"></script>
+    <!-- MODAL DE AUTENTICACIÓN -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-auth-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-tabs">
+                <button class="modal-tab active" id="login-tab">Iniciar Sesión</button>
+                <button class="modal-tab" id="register-tab">Registrarse</button>
+            </div>
+            <div id="login-content" class="modal-tab-content">
+                <form id="login-form">
+                    <input type="email" placeholder="Correo electrónico" required class="form-input">
+                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                </form>
+            </div>
+            <div id="register-content" class="modal-tab-content hidden">
+                <form id="register-form">
+                    <input type="text" placeholder="Nombre completo" required class="form-input">
+                    <input type="email" placeholder="Correo electrónico" required class="form-input">
+                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/data.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/i18n/i18n.js"></script>
+    <script src="js/modules/utils.js"></script>
+    <script src="js/modules/storage.js"></script>
+    <script src="js/modules/auth.js"></script>
+    <script src="js/modules/categorias.js"></script>
+    <script src="js/modules/productos.js"></script>
+    <script src="js/modules/imageModal.js"></script>
+    
     <script>
-        // Aquí iría el código para cargar los productos adicionales
-        document.addEventListener('DOMContentLoaded', function() {
-            // Código para cargar productos y manejar la paginación
-            console.log('Página de productos cargada');
-        });
+        // Script de la página de productos
+        (function() {
+            'use strict';
+
+            window.addEventListener('load', function() {
+                console.log('Página de productos cargada');
+
+                if (!window.productosData || window.productosData.length === 0) {
+                    console.error('No hay productos disponibles');
+                    document.getElementById('empty-message').classList.remove('hidden');
+                    return;
+                }
+
+                if (window.CategoriasModule) {
+                    window.CategoriasModule.renderCategorias('categorias-container');
+                }
+
+                renderAllProducts();
+                updateCartCounter();
+
+                document.addEventListener('click', function(e) {
+                    const categoryCard = e.target.closest('[data-category]');
+                    if (categoryCard) {
+                        filterByCategory(categoryCard.dataset.category);
+                    }
+                });
+            });
+
+            function renderAllProducts() {
+                const container = document.getElementById('todos-productos');
+                if (!container) return;
+
+                const products = window.productosData || [];
+                
+                if (products.length === 0) {
+                    document.getElementById('empty-message').classList.remove('hidden');
+                    return;
+                }
+
+                const productsHtml = products.map(product => {
+                    const currentUser = window.StorageModule ? window.StorageModule.getCurrentUser() : null;
+                    const isFavorite = currentUser?.favoritos?.includes(product.id) || false;
+                    
+                    return `
+                        <div class="product-card-custom" onclick="window.location.href='index.html?product=${product.id}'">
+                            <div class="product-image-wrapper">
+                                <img src="${product.imagen}" alt="${product.nombre}" loading="lazy">
+                                <button class="favorite-btn-custom ${isFavorite ? 'active' : ''}" 
+                                        onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
+                                        aria-label="Agregar a favoritos">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                            <div class="product-info-custom">
+                                <h3 class="product-name-custom">${product.nombre}</h3>
+                                <p class="product-store-custom">${product.tienda?.nombre || 'Tienda'}</p>
+                                <div class="product-footer-custom">
+                                    <span class="product-price-custom">C$${product.precio.toFixed(2)}</span>
+                                    <button class="btn-cart-custom" 
+                                            onclick="event.stopPropagation(); addToCart('${product.id}')">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                container.innerHTML = productsHtml;
+            }
+
+            function filterByCategory(category) {
+                const container = document.getElementById('todos-productos');
+                if (!container) return;
+
+                const products = window.productosData || [];
+                const filtered = category === 'Todas' ? products : products.filter(p => p.categoria === category);
+
+                if (filtered.length === 0) {
+                    container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999;">No hay productos en esta categoría</p>';
+                    return;
+                }
+
+                const productsHtml = filtered.map(product => {
+                    const currentUser = window.StorageModule ? window.StorageModule.getCurrentUser() : null;
+                    const isFavorite = currentUser?.favoritos?.includes(product.id) || false;
+                    
+                    return `
+                        <div class="product-card-custom" onclick="window.location.href='index.html?product=${product.id}'">
+                            <div class="product-image-wrapper">
+                                <img src="${product.imagen}" alt="${product.nombre}" loading="lazy">
+                                <button class="favorite-btn-custom ${isFavorite ? 'active' : ''}" 
+                                        onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
+                                        aria-label="Agregar a favoritos">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                            <div class="product-info-custom">
+                                <h3 class="product-name-custom">${product.nombre}</h3>
+                                <p class="product-store-custom">${product.tienda?.nombre || 'Tienda'}</p>
+                                <div class="product-footer-custom">
+                                    <span class="product-price-custom">C$${product.precio.toFixed(2)}</span>
+                                    <button class="btn-cart-custom" 
+                                            onclick="event.stopPropagation(); addToCart('${product.id}')">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                container.innerHTML = productsHtml;
+            }
+
+            function updateCartCounter() {
+                if (!window.StorageModule) return;
+
+                const currentUser = window.StorageModule.getCurrentUser();
+                const cartCount = currentUser?.carrito?.reduce((sum, item) => sum + (item.cantidad || 0), 0) || 0;
+
+                document.querySelectorAll('#contador-carrito, #contador-carrito-desk').forEach(el => {
+                    if (el) {
+                        el.textContent = cartCount;
+                        el.style.display = cartCount > 0 ? 'flex' : 'none';
+                        el.classList.toggle('hidden', cartCount === 0);
+                    }
+                });
+            }
+
+            window.addToCart = function(productId) {
+                if (!window.AuthModule || !window.AuthModule.isAuthenticated()) {
+                    if (window.AuthModule) window.AuthModule.showModal('login');
+                    return;
+                }
+
+                const currentUser = window.StorageModule.getCurrentUser();
+                const existingItem = currentUser.carrito.find(item => item.id === productId);
+
+                if (existingItem) {
+                    existingItem.cantidad++;
+                } else {
+                    currentUser.carrito.push({ id: productId, cantidad: 1 });
+                }
+
+                window.StorageModule.updateUser(currentUser);
+                updateCartCounter();
+
+                if (window.UtilsModule) {
+                    const product = window.productosData.find(p => p.id === productId);
+                    window.UtilsModule.notify('cart.added', `'${product.nombre}' agregado al carrito`, 'exito');
+                }
+            };
+
+            window.toggleFavorite = function(productId) {
+                if (!window.AuthModule || !window.AuthModule.isAuthenticated()) {
+                    if (window.AuthModule) window.AuthModule.showModal('login');
+                    return;
+                }
+
+                const currentUser = window.StorageModule.getCurrentUser();
+                const index = currentUser.favoritos.indexOf(productId);
+
+                if (index === -1) {
+                    currentUser.favoritos.push(productId);
+                } else {
+                    currentUser.favoritos.splice(index, 1);
+                }
+
+                window.StorageModule.updateUser(currentUser);
+                renderAllProducts();
+            };
+
+        })();
     </script>
 </body>
 </html>

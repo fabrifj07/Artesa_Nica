@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiendas y Artesanos - ArtesaNica</title>
+    <meta name="description" content="Conoce a los talentosos artesanos de Niquinohomo. Visita sus tiendas virtuales y descubre sus historias.">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://artesanica.vercel.app/tiendas.html">
+    <meta property="og:title" content="Artesanos de Niquinohomo - ArtesaNica">
+    <meta property="og:description" content="Directorio de artesanos y tiendas locales.">
+    <meta property="og:image" content="https://i.postimg.cc/gk4KW3sG/IMG-20251112-WA0053.jpg">
+    
+    <!-- Estilos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+        /* --- CORRECCIÓN NAVBAR --- */
+        
+        /* Estilos base (Móvil) */
+        .navbar .container {
+            gap: 0.5rem; /* Menor separación en móvil */
+            justify-content: space-between; /* Distribuir espacio */
+        }
+
+        .navbar-icons {
+            display: none; /* Ocultar íconos en móvil */
+        }
+
+        .navbar-brand {
+            font-size: 1.2rem; /* Texto más pequeño en móvil */
+        }
+
+        /* Estilos Escritorio (min-width: 768px) */
+        @media (min-width: 768px) {
+            .navbar .container {
+                gap: 1.5rem;
+            }
+
+            .navbar-icons {
+                display: flex; /* Mostrar íconos solo en escritorio */
+                align-items: center;
+                gap: 1.5rem;
+                margin-left: auto;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+        }
+
+        .nav-icon {
+            position: relative;
+            color: var(--color-texto);
+            font-size: 1.4rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .nav-icon:hover {
+            background-color: #f0f0f0;
+            color: var(--color-primario);
+        }
+
+        /* Badge del carrito */
+        .nav-icon .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: #e74c3c;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+        
+        .nav-icon .badge.hidden {
+            display: none;
+        }
+
+        /* --- CORRECCIÓN GRID Y TARJETAS --- */
+        .stores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .store-card-custom {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .store-card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .store-image-custom {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            background-color: #f4f4f4;
+        }
+
+        .store-content-custom {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .store-name-custom {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--color-texto);
+        }
+
+        .store-description-custom {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .store-meta-custom {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #888;
+            font-size: 0.85rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="container">
+            <a href="index.html" class="navbar-brand" title="Volver a inicio">
+                <i class="fas fa-arrow-left"></i> 
+                <span>Inicio</span>
+            </a>
+            <a href="index.html" class="navbar-brand">
+                Artesanica
+                <img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Logo" class="navbar-brand-img">
+            </a>
+            
+            <div class="navbar-icons">
+                <a href="index.html#buscar" class="nav-icon"><i class="fas fa-search"></i></a>
+                <a href="index.html#carrito" class="nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="contador-carrito-desk" class="badge hidden">0</span>
+                </a>
+                <a href="index.html#perfil" class="nav-icon"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+        <div class="container section" style="padding-top: 2rem;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-store" style="color: var(--color-primario); margin-right: 0.5rem;"></i>
+                    Nuestros Artesanos
+                </h1>
+                <p style="color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                    Conoce a los creadores detrás de cada pieza única. Apoya el talento local de Niquinohomo.
+                </p>
+            </div>
+
+            <div id="tiendas-container" class="stores-grid">
+                <!-- Las tiendas se cargarán aquí -->
+            </div>
+
+            <div id="empty-message" class="hidden" style="text-align: center; padding: 3rem; color: #999;">
+                <i class="fas fa-store-slash" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                <p>No hay tiendas disponibles en este momento.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL DE AUTENTICACIÓN -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-auth-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-tabs">
+                <button class="modal-tab active" id="login-tab">Iniciar Sesión</button>
+                <button class="modal-tab" id="register-tab">Registrarse</button>
+            </div>
+            <div id="login-content" class="modal-tab-content">
+                <form id="login-form">
+                    <input type="email" placeholder="Correo electrónico" required class="form-input">
+                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                </form>
+            </div>
+            <div id="register-content" class="modal-tab-content hidden">
+                <form id="register-form">
+                    <input type="text" placeholder="Nombre completo" required class="form-input">
+                    <input type="email" placeholder="Correo electrónico" required class="form-input">
+                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV (Móvil) -->
+    <nav class="bottom-nav">
+        <div class="nav-item"><a href="index.html"><i class="fas fa-home"></i><span>Inicio</span></a></div>
+        <div class="nav-item"><a href="productos.html"><i class="fas fa-shopping-bag"></i><span>Productos</span></a></div>
+        <div class="nav-item"><a href="tiendas.html" class="active"><i class="fas fa-store"></i><span>Tiendas</span></a></div>
+        <div class="nav-item"><a href="index.html#carrito"><i class="fas fa-shopping-cart"></i><span>Carrito</span><span id="contador-carrito" class="badge hidden">0</span></a></div>
+        <div class="nav-item"><a href="index.html#perfil"><i class="fas fa-user"></i><span>Perfil</span></a></div>
+    </nav>
+
+    <!-- SCRIPTS -->
+    <script src="js/data.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/i18n/i18n.js"></script>
+    <script src="js/modules/utils.js"></script>
+    <script src="js/modules/storage.js"></script>
+    <script src="js/modules/auth.js"></script>
+    
+    <script>
+        (function() {
+            'use strict';
+
+            window.addEventListener('load', function() {
+                console.log('Página de tiendas cargada');
+                renderStores();
+                updateCartCounter();
+            });
+
+            function renderStores() {
+                const container = document.getElementById('tiendas-container');
+                if (!container) return;
+
+                const stores = window.tiendasData || [];
+                
+                if (stores.length === 0) {
+                    document.getElementById('empty-message').classList.remove('hidden');
+                    return;
+                }
+
+                container.innerHTML = stores.map(store => `
+                    <div class="store-card-custom" onclick="window.location.href='index.html?section=tienda&store=${store.id}'">
+                        <img src="${store.foto_perfil || 'img/default-store.jpg'}" alt="${store.nombre}" class="store-image-custom">
+                        <div class="store-content-custom">
+                            <h3 class="store-name-custom">${store.nombre}</h3>
+                            <p class="store-description-custom">${store.descripcion || 'Tienda de artesanías locales.'}</p>
+                            <div class="store-meta-custom">
+                                <span><i class="fas fa-map-marker-alt"></i> ${store.ubicacion || 'Niquinohomo'}</span>
+                                <span style="margin-left: auto; color: var(--color-primario); font-weight: 500;">Visitar <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function updateCartCounter() {
+                if (!window.StorageModule) return;
+                const currentUser = window.StorageModule.getCurrentUser();
+                const cartCount = currentUser?.carrito?.reduce((sum, item) => sum + (item.cantidad || 0), 0) || 0;
+                
+                document.querySelectorAll('#contador-carrito, #contador-carrito-desk').forEach(el => {
+                    if (el) {
+                        el.textContent = cartCount;
+                        el.style.display = cartCount > 0 ? 'flex' : 'none';
+                        el.classList.toggle('hidden', cartCount === 0);
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
