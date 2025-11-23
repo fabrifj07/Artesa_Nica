@@ -1,0 +1,116 @@
+{
+  "brand": {
+    "name": "Artesanica"
+  },
+  "home": {
+    "hero": {
+      "title": "Handcrafts from Niquinohomo",
+      "subtitle": "Discover unique handcrafted products, made with love and tradition.",
+      "ctaProducts": "View Products",
+      "ctaStores": "View Artisans"
+    }
+  },
+  "sections": {
+    "categories": "Browse by Category",
+    "featuredProducts": "Featured Products",
+    "featuredStores": "Featured Stores",
+    "search": "Search products",
+    "favorites": "Your Favorites",
+    "cart": "My Cart",
+    "profile": "My Profile",
+    "allProducts": "All Products",
+    "moreStores": "More Stores",
+    "news": "News"
+  },
+  "bottom": {
+    "home": "Home",
+    "search": "Search",
+    "favorites": "Favorites",
+    "cart": "Cart",
+    "profile": "Profile"
+  },
+  "nav": {
+    "back": "Back",
+    "changeLanguage": "Change language",
+    "search": "Search products",
+    "profile": "View my profile",
+    "favorites": "View my favorites",
+    "cart": "View my shopping cart"
+  },
+  "actions": {
+    "seeMoreProducts": "See more products",
+    "seeMoreStores": "See more stores",
+    "viewStore": "View Store",
+    "addToCart": "Add to cart",
+    "viewNews": "View News"
+  },
+  "common": {
+    "emptyProducts": "No products to display."
+  },
+  "search": {
+    "placeholder": "Type here to search...",
+    "emptyPrompt": "Search products or artisans.",
+    "noResults": "No products found."
+  },
+  "stores": {
+    "empty": "No stores available at this time.",
+    "generic": "Store",
+    "defaultDescription": "Handicraft store"
+  },
+  "favorites": {
+    "empty": "Your favorites list is empty."
+  },
+  "auth": {
+    "loginTab": "Sign In",
+    "registerTab": "Sign Up",
+    "welcomeTitle": "Welcome back",
+    "registerTitle": "Create an account",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "loginButton": "Sign in",
+    "registerButton": "Register",
+    "close": "Close",
+    "emailExists": "An account with this email already exists",
+    "registerSuccess": "Registration successful! Signing in...",
+    "welcomeBack": "Welcome back, {name}!",
+    "badCredentials": "Incorrect email or password",
+    "goodbye": "See you soon, {name}",
+    "loginRequired": "Please sign in to continue"
+  },
+  "cart": {
+    "empty": "Your cart is empty.",
+    "payStore": "Pay Order",
+    "backToCart": "Back to cart",
+    "delivery": {
+      "pickup": "Pickup at Store",
+      "home": "Home Delivery",
+      "address": "Shipping Address"
+    },
+    "proceedPayment": "Proceed to Payment",
+    "summary": {
+      "subtotal": "Subtotal ({count} items):",
+      "shipping": "Shipping cost:",
+      "total": "Total:"
+    }
+  },
+  "news": {
+    "title": "Stay Informed",
+    "description": "Discover the latest news, events, and updates from the artisan community.",
+    "viewButton": "View News",
+    "healthFair": {
+      "title": "We guarantee specialized medical care for Families in Niquinohomo",
+      "content": "Thanks to the \"My Hospital in My Community\" Health Fair, promoted by the Sandinista Government, families in Niquinohomo now have access to specialized medical care in their own community.",
+      "date": "November 19, 2025"
+    },
+    "comments": "0 comments"
+  },
+  "categories": {
+    "barro": "Clay",
+    "bambu": "Bamboo",
+    "madera": "Wood",
+    "hamacas": "Hammocks",
+    "repujado": "Repoussé",
+    "all": "All"
+  }
+}

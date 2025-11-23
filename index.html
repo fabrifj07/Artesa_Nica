@@ -1,0 +1,571 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artesanica - Productos Artesanales de Niquinohomo</title>
+    
+    <!-- Fuentes y Iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Hojas de Estilo Propias -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components/categorias.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+    <!-- ===================================================================
+       BARRA DE NAVEGACIÓN SUPERIOR
+       =================================================================== -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" id="back-button" class="navbar-brand hidden back-button" title="Volver a la página anterior" data-i18n-attr="title=nav.back"><i class="fas fa-arrow-left"></i> <span data-i18n="nav.back">Volver</span></a>
+            <a href="#" id="logo-link" class="navbar-brand" title="Ir a la página de inicio">Artesanica<img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Artesanica Logo" class="navbar-brand-img"></a>
+            
+            <div class="navbar-icons">
+                <a href="#" id="desktop-buscar" class="nav-icon" title="Buscar productos" data-i18n-attr="title=nav.search">
+                    <i class="fas fa-search"></i>
+                    <span class="nav-icon-label" data-i18n="nav.search">Buscar</span>
+                </a>
+                <a href="#" id="desktop-noticias" class="nav-icon" title="Noticias" data-i18n-attr="title=nav.news">
+                    <i class="fas fa-newspaper"></i>
+                    <span class="nav-icon-label" data-i18n="sections.news">Noticias</span>
+                </a>
+                <a href="#" id="lang-selector" class="nav-icon" title="Cambiar idioma" data-i18n-attr="title=nav.changeLanguage">
+                    <i class="fas fa-globe"></i>
+                    <span class="nav-icon-label" id="lang-code-desktop" data-i18n="nav.language">Idioma</span>
+                </a>
+                <a href="#" id="desktop-carrito" class="nav-icon" title="Ver mi carrito de compras" data-i18n-attr="title=nav.cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="nav-icon-label" data-i18n="bottom.cart">Carrito</span>
+                    <span id="contador-carrito-desk" class="nav-counter hidden">0</span>
+                </a>
+                <a href="#" id="desktop-perfil" class="nav-icon" title="Ver mi perfil" data-i18n-attr="title=nav.profile">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-icon-label" data-i18n="bottom.profile">Perfil</span>
+                </a>
+            </div>
+            <a href="#" id="lang-selector-mobile" class="nav-icon" title="Cambiar idioma" data-i18n-attr="title=nav.changeLanguage" style="margin-left:auto;">
+                <i class="fas fa-globe"></i>
+                <span id="lang-code-mobile">ES</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ===================================================================
+       CONTENIDO PRINCIPAL
+       =================================================================== -->
+    <main class="main-content">
+        <div id="seccion-inicio" class="seccion-principal">
+            <section class="hero-section">
+                <div class="container">
+                    <div class="hero-text-wrapper">
+                        <div class="hero-content">
+                            <h1 data-i18n="home.hero.title">Artesanía de Niquinohomo</h1>
+                            <p data-i18n="home.hero.subtitle">Descubre productos artesanales únicos, hechos con amor y tradición.</p>
+                        </div>
+                        <div class="hero-buttons">
+                            <a href="#productos" class="btn btn-primary" data-i18n="home.hero.ctaProducts">Ver Productos</a>
+                            <a href="#tiendas" class="btn btn-secondary" data-i18n="home.hero.ctaStores">Ver Artesanos</a>
+                        </div>
+                    </div>
+                    <div class="hero-image"><img src="https://i.postimg.cc/gk4KW3sG/IMG-20251112-WA0053.jpg" alt="Artesanías de Niquinohomo"></div>
+                </div>
+            </section>
+            <section id="categorias" class="section">
+                <div class="container">
+                    <h2 class="section-title main-section-title" data-i18n="sections.categories">Explora por Categoría</h2>
+                    <div id="categorias-container" class="grid-container grid-categories">
+                        <!-- Las categorías se renderizarán aquí dinámicamente -->
+                    </div>
+                </div>
+            </section>
+            <section id="productos" class="section">
+                <div class="container">
+                    <h2 class="section-title main-section-title" data-i18n="sections.featuredProducts">Productos Destacados</h2>
+                    <div id="productos-container" class="grid-container grid-products"></div>
+                    <div style="text-align: right; margin-top: 1rem;">
+                        <a class="btn btn-text ver-mas-link" href="#" onclick="app.navigateTo('productos'); return false;"><span data-i18n="actions.seeMoreProducts">Ver más productos</span> <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i></a>
+                    </div>
+                </div>
+            </section>
+            <section id="tiendas" class="section">
+                <div class="container">
+                    <h2 class="section-title main-section-title" data-i18n="sections.featuredStores">Tiendas Destacadas</h2>
+                    <div id="tiendas-container" class="grid-container grid-stores"></div>
+                    <div style="text-align: right; margin-top: 1rem;">
+                        <a class="btn btn-text ver-mas-link" href="#" onclick="app.navigateTo('mas-tiendas'); return false;"><span data-i18n="actions.seeMoreStores">Ver más tiendas</span> <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i></a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tarjeta de Noticias -->
+            <section class="section" data-i18n-section="news">
+                <div class="container">
+                    <div class="news-card" style="background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%); border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+                        <div style="font-size: 2.5rem; color: var(--color-primario); margin-bottom: 1rem;">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <h2 class="news-card-title" style="margin-bottom: 1rem;" data-i18n="news.title">Mantente Informado</h2>
+                        <p style="color: #555; margin-bottom: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;" data-i18n="news.description">
+                            Descubre las últimas noticias, eventos y actualizaciones de la comunidad artesanal.
+                        </p>
+                        <a href="#" onclick="app.navigateTo('noticias'); return false;" class="btn btn-primary" style="margin-top: 1rem;" data-i18n="[html]actions.viewNews">
+                            <i class="fas fa-book-open" style="margin-right: 0.5rem;"></i> <span data-i18n="news.viewButton">Ver Noticias</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div id="seccion-buscar" class="seccion-principal hidden"><div class="container section"><h2 class="section-title" data-i18n="sections.search">Buscar productos</h2><div class="search-bar search-bar-modal"><input type="text" id="buscar-productos" placeholder="Escribe aquí para buscar..." class="form-input" data-i18n-attr="placeholder=search.placeholder"><i class="fas fa-search search-icon"></i></div><div id="resultados-busqueda" class="grid-container grid-products"></div></div></div>
+        
+        <!-- Sección de Carrito -->
+        <div id="seccion-carrito" class="seccion-principal hidden">
+            <div class="container section">
+                <h2 class="section-title" data-i18n="sections.cart">Tu Carrito</h2>
+                <div class="cart-layout">
+                    <div id="contenido-carrito" class="cart-items">
+                        <!-- Los items del carrito se renderizarán aquí -->
+                    </div>
+                    <div id="resumen-carrito" class="cart-summary hidden">
+                        <!-- El resumen del carrito se renderizará aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="seccion-perfil" class="seccion-principal">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <button class="back-button" onclick="history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 class="profile-title">Mi Perfil</h2>
+                    <div class="profile-actions">
+                        <button class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="language-button">ES</button>
+                        <button class="cart-button">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="profile-content">
+                    <!-- Tarjeta de información del usuario -->
+                    <div class="user-card">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <h3 class="user-name">fernan</h3>
+                            <p class="user-email">fabri07@gmail.com</p>
+                            <p class="member-since">Miembro desde: <strong>8 de noviembre de 2025</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta de saldo -->
+                    <div class="balance-card">
+                        <div class="balance-content">
+                            <i class="fas fa-wallet"></i>
+                            <div class="balance-details">
+                                <span class="balance-label">Total de Compras Hechas</span>
+                                <span class="balance-amount">C$13,900.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menú de cuenta -->
+                    <div class="account-section">
+                        <h3 class="section-title">MI CUENTA</h3>
+                        <div class="menu-list">
+                            <a href="#" class="menu-item" id="menu-mis-pedidos" onclick="app.showMisPedidos(); return false;">
+                                <div class="menu-icon">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </div>
+                                <span class="menu-text">Mis Pedidos</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <a href="#" class="menu-item" onclick="app.showSection('seccion-mis-favoritos'); return false;">
+                                <div class="menu-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <span class="menu-text">Mis Favoritos</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <div class="menu-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <span class="menu-text">Mis Direcciones</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <div class="menu-icon">
+                                    <i class="far fa-credit-card"></i>
+                                </div>
+                                <span class="menu-text">Mis Métodos de Pago</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Sección de aplicación -->
+                    <div class="app-section">
+                        <h3 class="section-title">APLICACIÓN</h3>
+                        <div class="menu-list">
+                            <a href="#" class="menu-item">
+                                <div class="menu-icon">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <span class="menu-text">Configuración</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <div class="menu-icon">
+                                    <i class="fas fa-share-alt"></i>
+                                </div>
+                                <span class="menu-text">compartir web</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <div class="menu-icon">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                                <span class="menu-text">Cerrar Sesión</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Mis Pedidos -->
+        <div id="seccion-mis-pedidos" class="seccion-principal hidden">
+            <div class="container">
+                <div class="profile-header">
+                    <button class="back-button" onclick="app.showSection('seccion-perfil')">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 class="profile-title">Mis Pedidos</h2>
+                </div>
+                <div class="profile-content">
+                    <div id="historial-compras" class="purchases-container">
+                        <!-- El contenido se cargará dinámicamente con JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Mis Favoritos -->
+        <div id="seccion-mis-favoritos" class="seccion-principal hidden">
+            <div class="container">
+                <div class="profile-header">
+                    <button class="back-button" onclick="app.showSection('seccion-perfil')">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 class="profile-title">Mis Favoritos</h2>
+                </div>
+                <div class="profile-content">
+                    <!-- Estado vacío -->
+                    <div id="empty-favorites" class="empty-state" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 1rem; text-align: center;">
+                        <div class="empty-icon" style="width: 80px; height: 80px; background-color: #f8f9fa; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                            <i class="fas fa-heart" style="font-size: 2rem; color: #e74c3c;"></i>
+                        </div>
+                        <h3 style="font-size: 1.25rem; color: #2c3e50; margin-bottom: 0.75rem;">No tienes favoritos aún</h3>
+                        <p style="color: #7f8c8d; margin-bottom: 1.5rem; max-width: 400px; line-height: 1.5;">
+                            Guarda tus productos favoritos para encontrarlos fácilmente más tarde.
+                        </p>
+                        <button onclick="app.showSection('seccion-inicio')" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">
+                            <i class="fas fa-shopping-bag" style="margin-right: 0.5rem;"></i>
+                            Explorar productos
+                        </button>
+                    </div>
+                    
+                    <!-- Lista de favoritos -->
+                    <div id="lista-favoritos" class="products-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; width: 100%;">
+                        <!-- Los productos favoritos se cargarán aquí dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="seccion-productos" class="seccion-principal hidden"><div class="container section"><h2 class="section-title" data-i18n="sections.allProducts">Todos los Productos</h2><div id="todos-productos" class="grid-container grid-products"></div></div></div>
+        <div id="seccion-mas-tiendas" class="seccion-principal hidden"><div class="container section"><h2 class="section-title" data-i18n="sections.moreStores">Más Tiendas</h2><div id="mas-tiendas-container" class="grid-container grid-stores"></div></div></div>
+        
+        <!-- Sección de Noticias -->
+        <div id="seccion-noticias" class="seccion-principal hidden">
+            <div class="container section">
+                <h2 class="section-title" data-i18n="sections.news">Noticias</h2>
+                
+                <!-- Noticia: Feria de Salud en Niquinohomo -->
+                <div class="news-post" style="background: white; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+                    <h3 style="color: #2c3e50; margin-bottom: 1.5rem; text-align: center;">
+                        Garantizamos atención médica especializada a las Familias de Niquinohomo
+                    </h3>
+                    
+                    <div style="margin: 0 auto 1.5rem; max-width: 800px; cursor: pointer;" 
+                         onclick="document.getElementById('imageModal').style.display='block'; document.getElementById('modalImage').src=this.querySelector('img').src">
+                        <div style="position: relative; padding-bottom: 56.25%; overflow: hidden; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <img 
+                                src="https://i.postimg.cc/g23WnB6T/feria-de-salud-Niquinohomo.jpg" 
+                                alt="Feria de Salud en Niquinohomo" 
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
+                                onmouseover="this.style.transform='scale(1.02)'"
+                                onmouseout="this.style.transform='scale(1)'"
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- Modal para la imagen -->
+                    <div id="imageModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.9);">
+                        <span class="close" style="position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer;">&times;</span>
+                        <img class="modal-content" id="modalImage" style="margin: auto; display: block; max-width: 90%; max-height: 90%; position: relative; top: 50%; transform: translateY(-50%);">
+                    </div>
+                    
+                    <script>
+                        // Cerrar el modal al hacer clic en la X
+                        document.querySelector('.close').onclick = function() {
+                            document.getElementById('imageModal').style.display = 'none';
+                        }
+
+                        // Cerrar el modal al hacer clic fuera de la imagen
+                        window.onclick = function(event) {
+                            const modal = document.getElementById('imageModal');
+                            if (event.target == modal) {
+                                modal.style.display = 'none';
+                            }
+                        }
+                        
+                        // Cerrar con la tecla ESC
+                        document.addEventListener('keydown', function(event) {
+                            if (event.key === 'Escape') {
+                                document.getElementById('imageModal').style.display = 'none';
+                            }
+                        });
+                    </script>
+                    
+                    <div style="color: #555; line-height: 1.6; max-width: 800px; margin: 0 auto 1.5rem; text-align: justify;">
+                        <p>Gracias a la Feria de Salud "Mi Hospital en Mi Comunidad", impulsada por el Buen Gobierno Sandinista, las familias de Niquinohomo ahora tienen acceso a atención médica especializada en su propia comunidad.</p>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; color: #7f8c8d; font-size: 0.9rem; border-top: 1px solid #eee; padding-top: 1rem; margin-top: 1.5rem;">
+                        <span><i class="far fa-calendar-alt" style="margin-right: 0.3rem;"></i> 19 de Noviembre, 2025</span>
+                        <span><i class="far fa-comment" style="margin-right: 0.3rem;"></i> 0 comentarios</span>
+                    </div>
+                </div>
+                
+                <!-- Espacio para más noticias en el futuro -->
+                <div id="lista-noticias" class="news-grid">
+                    <!-- Se pueden agregar más noticias aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Nueva sección para la vista de tienda individual -->
+        <div id="seccion-tienda" class="seccion-principal hidden">
+            <div class="container section">
+                <div id="tienda-detalle-header" class="card store-detail-header">
+                    <!-- El encabezado de la tienda se renderizará aquí -->
+                </div>
+
+                <div class="store-filters-container">
+                    <h2 class="section-title section-title-left">Productos de la Tienda</h2>
+                    <div id="tienda-filtros-container">
+                        <!-- Los filtros se renderizarán aquí -->
+                    </div>
+                </div>
+                
+                <div id="tienda-productos-grid" class="grid-container grid-products">
+                    <!-- Los productos de la tienda se renderizarán aquí -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Se eliminaron los botones de ver más -->
+        
+        <!-- ===================================================================
+           SECCIÓN DE CONFIGURACIÓN
+           =================================================================== -->
+        <div id="seccion-configuracion" class="seccion-principal hidden">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-i18n="configuracion.titulo">Configuración</h2>
+                </div>
+                <div class="config-content">
+                    <!-- El contenido de la configuración se cargará dinámicamente aquí -->
+                    <div id="panel-configuracion"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- ===================================================================
+       FOOTER
+       =================================================================== -->
+    <footer class="footer">
+        <div class="container">
+             <p class="footer-bottom">&copy; 2025 Artesanica. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- ===================================================================
+       NAVEGACIÓN INFERIOR (MÓVIL)
+       =================================================================== -->
+    <nav class="bottom-nav">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#" id="nav-inicio" class="active"><i class="fas fa-home"></i><span data-i18n="bottom.home">Inicio</span></a></li>
+            <li class="nav-item"><a href="#" id="nav-noticias"><i class="fas fa-newspaper"></i><span>Noticias</span></a></li>
+            <li class="nav-item"><a href="#" id="nav-buscar"><i class="fas fa-search"></i><span data-i18n="bottom.search">Buscar</span></a></li>
+            <li class="nav-item"><a href="#" id="nav-carrito"><i class="fas fa-shopping-cart"></i><span data-i18n="bottom.cart">Carrito</span><span id="contador-carrito" class="nav-counter hidden">0</span></a></li>
+            <li class="nav-item"><a href="#" id="nav-perfil"><i class="fas fa-user"></i><span data-i18n="bottom.profile">Perfil</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- ===================================================================
+       MODAL DE AUTENTICACIÓN
+       =================================================================== -->
+    <div id="auth-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-tabs">
+                <button id="login-tab" class="tab active" data-i18n="auth.loginTab">Iniciar Sesión</button>
+                <button id="register-tab" class="tab" data-i18n="auth.registerTab">Registrarse</button>
+            </div>
+            
+            <!-- Contenido del Login -->
+            <div id="login-content" class="modal-body">
+                <h3 data-i18n="auth.welcomeTitle">Bienvenido de nuevo</h3>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label" data-i18n="auth.email">Correo electrónico</label>
+                        <input type="email" id="login-email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" class="form-label" data-i18n="auth.password">Contraseña</label>
+                        <input type="password" id="login-password" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full-width" data-i18n="auth.loginButton">Iniciar sesión</button>
+                </form>
+            </div>
+            
+            <!-- Contenido de Registro -->
+            <div id="register-content" class="modal-body hidden">
+                <h3 data-i18n="auth.registerTitle">Crear una cuenta</h3>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name" class="form-label" data-i18n="auth.name">Nombre</label>
+                        <input type="text" id="register-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email" class="form-label" data-i18n="auth.email">Correo electrónico</label>
+                        <input type="email" id="register-email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password" class="form-label" data-i18n="auth.password">Contraseña</label>
+                        <input type="password" id="register-password" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full-width" data-i18n="auth.registerButton">Registrarme</button>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button id="close-auth-modal" class="btn-close" data-i18n="auth.close">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================
+       SCRIPTS
+       =================================================================== -->
+    <!-- Cargar datos primero -->
+    <script src="js/data.js"></script>
+    
+    <!-- Cargar sistema de inicialización -->
+    <script src="js/init.js"></script>
+    
+    <!-- Cargar módulos principales -->
+    <script src="js/i18n/i18n.js"></script>
+    
+    <!-- Cargar módulos de funcionalidad -->
+    <script src="js/modules/categorias.js"></script>
+    <script src="js/modules/productos.js"></script>
+    <script src="js/modules/tiendas.js"></script>
+    <script src="js/modules/compartir.js"></script>
+    <script src="js/modules/configuracion.js"></script>
+    
+    <!-- Cargar lógica principal de la aplicación -->
+    <script src="js/main.js"></script>
+    <script>
+        // Función para manejar la navegación
+        function handleNavigation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const section = urlParams.get('section');
+            const storeId = urlParams.get('store');
+            const configuracion = urlParams.get('configuracion');
+
+            // Ocultar todas las secciones primero
+            document.querySelectorAll('.seccion-principal').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Mostrar la sección correspondiente según los parámetros de la URL
+            if (section === 'tienda' && storeId) {
+                // Mostrar sección de tienda
+                document.getElementById('seccion-tienda').classList.remove('hidden');
+                document.querySelectorAll('.nav-item a').forEach(link => link.classList.remove('active'));
+                document.getElementById('nav-inicio')?.classList.add('active');
+            } else if (configuracion === 'true') {
+                // Mostrar sección de configuración
+                document.getElementById('seccion-configuracion').classList.remove('hidden');
+                document.querySelectorAll('.nav-item a').forEach(link => link.classList.remove('active'));
+                document.getElementById('nav-perfil')?.classList.add('active');
+                
+                // Inicializar el módulo de configuración si está disponible
+                if (typeof window.ConfiguracionModule !== 'undefined') {
+                    window.ConfiguracionModule.renderConfiguracion();
+                }
+            } else {
+                // Mostrar sección de inicio por defecto
+                document.getElementById('seccion-inicio').classList.remove('hidden');
+                document.querySelectorAll('.nav-item a').forEach(link => link.classList.remove('active'));
+                document.getElementById('nav-inicio')?.classList.add('active');
+            }
+        }
+
+        // Función para actualizar la URL sin recargar la página
+        function updateUrl(section, params = {}) {
+            const url = new URL(window.location);
+            url.search = new URLSearchParams(params).toString();
+            window.history.pushState({}, '', url);
+        }
+
+        // Manejar el evento de carga de la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Manejar la navegación inicial
+            handleNavigation();
+
+            // Asegurarse de que el enlace "Ver más..." sea visible
+            const verMasLink = document.querySelector('.ver-mas-link');
+            if (verMasLink) {
+                verMasLink.style.display = 'inline-block';
+            }
+        });
+
+        // Manejar el evento de retroceso/avance del navegador
+        window.addEventListener('popstate', function() {
+            handleNavigation();
+        });
+    </script>
+</body>
+</html>

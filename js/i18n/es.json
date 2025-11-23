@@ -1,0 +1,116 @@
+{
+  "brand": {
+    "name": "Artesanica"
+  },
+  "home": {
+    "hero": {
+      "title": "Artesanía de Niquinohomo",
+      "subtitle": "Descubre productos artesanales únicos, hechos con amor y tradición.",
+      "ctaProducts": "Ver Productos",
+      "ctaStores": "Ver Artesanos"
+    }
+  },
+  "sections": {
+    "categories": "Explora por Categoría",
+    "featuredProducts": "Productos Destacados",
+    "featuredStores": "Tiendas Destacadas",
+    "search": "Buscar productos",
+    "favorites": "Tus Favoritos",
+    "cart": "Mi Carrito",
+    "profile": "Mi Perfil",
+    "allProducts": "Todos los Productos",
+    "moreStores": "Más Tiendas",
+    "news": "Noticias"
+  },
+  "bottom": {
+    "home": "Inicio",
+    "search": "Buscar",
+    "favorites": "Favoritos",
+    "cart": "Carrito",
+    "profile": "Perfil"
+  },
+  "nav": {
+    "back": "Volver",
+    "changeLanguage": "Cambiar idioma",
+    "search": "Buscar productos",
+    "profile": "Ver mi perfil",
+    "favorites": "Ver mis favoritos",
+    "cart": "Ver mi carrito de compras"
+  },
+  "actions": {
+    "seeMoreProducts": "Ver más productos",
+    "seeMoreStores": "Ver más tiendas",
+    "viewStore": "Ver Tienda",
+    "addToCart": "Agregar",
+    "viewNews": "Ver Noticias"
+  },
+  "common": {
+    "emptyProducts": "No hay productos para mostrar."
+  },
+  "search": {
+    "placeholder": "Escribe aquí para buscar...",
+    "emptyPrompt": "Busca productos o artesanos.",
+    "noResults": "No se encontraron productos."
+  },
+  "stores": {
+    "empty": "No hay tiendas disponibles en este momento.",
+    "generic": "Tienda",
+    "defaultDescription": "Tienda de artesanías"
+  },
+  "favorites": {
+    "empty": "Tu lista de favoritos está vacía."
+  },
+  "auth": {
+    "loginTab": "Iniciar Sesión",
+    "registerTab": "Registrarse",
+    "welcomeTitle": "Bienvenido de nuevo",
+    "registerTitle": "Crear una cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "name": "Nombre",
+    "loginButton": "Iniciar sesión",
+    "registerButton": "Registrarme",
+    "close": "Cerrar",
+    "emailExists": "Ya existe una cuenta con este correo",
+    "registerSuccess": "¡Registro exitoso! Iniciando sesión...",
+    "welcomeBack": "¡Bienvenido de nuevo, {name}!",
+    "badCredentials": "Correo o contraseña incorrectos",
+    "goodbye": "Hasta pronto, {name}",
+    "loginRequired": "Por favor, inicia sesión para continuar"
+  },
+  "cart": {
+    "empty": "Tu carrito está vacío.",
+    "payStore": "Pagar Pedido",
+    "backToCart": "Volver al carrito",
+    "delivery": {
+      "pickup": "Retiro en Local",
+      "home": "A Domicilio",
+      "address": "Dirección de Envío"
+    },
+    "proceedPayment": "Proceder al Pago",
+    "summary": {
+      "subtotal": "Subtotal ({count} productos):",
+      "shipping": "Costo de envío:",
+      "total": "Total:"
+    }
+  },
+  "news": {
+    "title": "Mantente Informado",
+    "description": "Descubre las últimas noticias, eventos y actualizaciones de la comunidad artesanal.",
+    "viewButton": "Ver Noticias",
+    "healthFair": {
+      "title": "Garantizamos atención médica especializada a las Familias de Niquinohomo",
+      "content": "Gracias a la Feria de Salud \"Mi Hospital en Mi Comunidad\", impulsada por el Buen Gobierno Sandinista, las familias de Niquinohomo ahora tienen acceso a atención médica especializada en su propia comunidad.",
+      "date": "19 de Noviembre, 2025"
+    },
+    "comments": "0 comentarios"
+  },
+  "categories": {
+    "barro": "Barro",
+    "bambu": "Bambú",
+    "madera": "Madera",
+    "hamacas": "Hamacas",
+    "repujado": "Repujado",
+    "all": "Todas"
+  }
+}

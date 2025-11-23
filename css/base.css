@@ -1,0 +1,68 @@
+/* ===================================================================
+   ARTESANICA - CSS BASE
+   =================================================================== */
+
+/* --- VARIABLES DE COLOR Y FUENTES --- */
+:root {
+    --color-primary: #4CAF50;          /* Verde principal */
+    --color-primary-dark: #45a049;    /* Verde para hover */
+    --color-secondary: #2196F3;        /* Azul secundario */
+    --color-texto: #374151;            /* Gris oscuro (gray-700) */
+    --color-texto-secundario: #6b7280; /* Gris medio (gray-500) */
+    --color-fondo: #f9fafb;            /* Gris muy claro (gray-50) */
+    --color-blanco: #ffffff;           /* Blanco */
+    --color-borde: #e5e7eb;            /* Gris claro (gray-200) */
+    --color-error: #ef4444;            /* Rojo para errores/favoritos (red-500) */
+
+    --font-principal: 'Poppins', sans-serif;
+}
+
+/* --- RESET Y ESTILOS GENERALES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-principal);
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--color-primary-dark);
+}
+
+/* --- CLASE CONTENEDORA PRINCIPAL --- */
+.container {
+    width: 100%;
+    max-width: 1280px; /* Ancho máximo del contenido */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* --- CLASE DE UTILIDAD PARA OCULTAR --- */
+.hidden {
+    display: none !important;
+}

@@ -1,2 +1,3 @@
-# Artesa_Nica
+# ArtesaNica
+
 una plataforma para artesanos de NICARAGUA

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Más Productos - Artesanica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- ===================================================================
+       HEADER
+       =================================================================== -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="img/logo.png" alt="Artesanica">
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="#">Tienda</a></li>
+                        <li><a href="#">Categorías</a></li>
+                        <li><a href="#">Artistas</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn-icon" id="btn-buscar"><i class="fas fa-search"></i></button>
+                    <a href="#" class="btn-icon" id="btn-favoritos">
+                        <i class="fas fa-heart"></i>
+                        <span id="contador-favoritos-header" class="badge hidden">0</span>
+                    </a>
+                    <a href="#" class="btn-icon" id="btn-carrito">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="contador-carrito-header" class="badge">0</span>
+                    </a>
+                    <a href="#" class="btn btn-outline" id="btn-iniciar-sesion">Iniciar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================================================================
+       CONTENIDO PRINCIPAL
+       =================================================================== -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Nuestros Productos</h1>
+                <a href="index.html" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Volver al inicio
+                </a>
+            </div>
+            
+            <div class="store-container">
+                <div class="store-filters-container">
+                    <div id="filtros-productos">
+                        <!-- Filtros se cargarán aquí dinámicamente -->
+                    </div>
+                </div>
+                
+                <div id="productos-grid" class="grid-container grid-products">
+                    <!-- Los productos adicionales se cargarán aquí dinámicamente -->
+                </div>
+                
+                <div class="paginacion">
+                    <button class="btn btn-outline" id="btn-anterior">Anterior</button>
+                    <span id="pagina-actual">Página 1</span>
+                    <button class="btn btn-primary" id="btn-siguiente">Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===================================================================
+       FOOTER
+       =================================================================== -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-bottom">&copy; 2025 Artesanica. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- ===================================================================
+       JAVASCRIPT
+       =================================================================== -->
+    <script src="js/main.js"></script>
+    <script>
+        // Aquí iría el código para cargar los productos adicionales
+        document.addEventListener('DOMContentLoaded', function() {
+            // Código para cargar productos y manejar la paginación
+            console.log('Página de productos cargada');
+        });
+    </script>
+</body>
+</html>

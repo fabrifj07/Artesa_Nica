@@ -1,0 +1,335 @@
+/* Estilos para la sección de perfil */
+.profile-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Encabezado del perfil */
+.profile-header {
+    display: none; /* Ocultar por defecto */
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #333;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.profile-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+}
+
+.profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.search-button,
+.language-button,
+.cart-button {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: #333;
+    cursor: pointer;
+    padding: 0.5rem;
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff4444;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenido principal */
+.profile-content {
+    padding: 1rem;
+}
+
+/* Tarjeta de usuario */
+.user-card {
+    background-color: #4CAF50;
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: white;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+}
+
+.user-email {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0 0 0.5rem 0;
+}
+
+.member-since {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Tarjeta de saldo */
+.balance-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.balance-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.balance-content {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.balance-content i {
+    font-size: 1.75rem;
+    color: #2e7d32; /* Verde esmeralda más oscuro */
+    background-color: #e8f5e9;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.balance-details {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.balance-label {
+    font-size: 0.95rem;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.balance-amount {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #2e7d32; /* Verde esmeralda */
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+/* Estilo del ícono de la billetera */
+.balance-content i {
+    background-color: #2e7d32; /* Verde más oscuro para mejor contraste */
+    width: 52px; /* Tamaño fijo */
+    height: 52px; /* Tamaño fijo */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: white; /* Color blanco para mejor contraste */
+    margin-right: 1.25rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.balance-card:hover .balance-content i {
+    transform: scale(1.1);
+    background-color: #1b5e20; /* Verde más oscuro al pasar el mouse */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Secciones de menú */
+.account-section,
+.app-section {
+    background-color: white;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    padding: 1rem 1.25rem;
+    margin: 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background-color 0.2s;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-item:active {
+    background-color: #f8f9fa;
+}
+
+.menu-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 10px;
+    background-color: #4caf50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.menu-icon i {
+    font-size: 1.2em;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    position: relative;
+    top: 0.05em; /* Ajuste fino para el centrado visual */
+}
+
+.menu-icon i {
+    font-size: 1.2em;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-item:hover .menu-icon {
+    background-color: #3e8e41;
+    transform: translateY(-1px);
+}
+
+.menu-text {
+    flex: 1;
+    font-size: 1rem;
+}
+
+.menu-item i.fa-chevron-right {
+    color: #ccc;
+    font-size: 0.8rem;
+}
+
+/* Ajustes para pantallas más grandes */
+@media (min-width: 768px) {
+    .seccion-principal {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .profile-container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    .profile-header {
+        display: none; /* Mantenemos el header oculto si no se usa */
+    }
+    
+    .profile-content {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    
+    .user-card,
+    .balance-card,
+    .account-section,
+    .app-section {
+        max-width: 600px;
+        margin: 0 auto 20px;
+        border-radius: 16px;
+    }
+
+    /* Asegurarse de que no haya desbordamiento horizontal */
+    body {
+        overflow-x: hidden;
+    }
+}
+
+/* Estilos específicos para pantallas muy grandes */
+@media (min-width: 1200px) {
+    .profile-container {
+        justify-content: center;
+    }
+    
+    .profile-content {
+        max-width: 1200px;
+        padding: 20px 40px;
+    }
+}

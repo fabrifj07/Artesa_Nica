@@ -1,0 +1,110 @@
+/* Estilos para las tarjetas de categorías */
+
+/* Contenedor de categorías */
+.grid-categorias {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+/* Tarjeta de categoría */
+.categoria-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #eee;
+    text-decoration: none;
+    color: #333;
+}
+
+.categoria-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    border-color: #4a6cf7;
+}
+
+/* Icono de categoría */
+.categoria-icono {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f5f7ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    color: #4a6cf7;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.categoria-card:hover .categoria-icono {
+    background: #4a6cf7;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Nombre de la categoría */
+.categoria-nombre {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.categoria-card:hover .categoria-nombre {
+    color: #4a6cf7;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .grid-categorias {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 1rem;
+    }
+    
+    .categoria-card {
+        padding: 1rem 0.5rem;
+    }
+    
+    .categoria-icono {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+    
+    .categoria-nombre {
+        font-size: 0.8rem;
+    }
+}
+
+/* Animación de carga */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.categoria-card {
+    animation: fadeIn 0.3s ease-out forwards;
+    opacity: 0;
+}
+
+/* Añadir un pequeño retraso a cada tarjeta para un efecto de cascada */
+.categoria-card:nth-child(1) { animation-delay: 0.1s; }
+.categoria-card:nth-child(2) { animation-delay: 0.2s; }
+.categoria-card:nth-child(3) { animation-delay: 0.3s; }
+.categoria-card:nth-child(4) { animation-delay: 0.4s; }
+.categoria-card:nth-child(5) { animation-delay: 0.5s; }
+.categoria-card:nth-child(6) { animation-delay: 0.6s; }
+.categoria-card:nth-child(7) { animation-delay: 0.7s; }
+.categoria-card:nth-child(8) { animation-delay: 0.8s; }

@@ -1,0 +1,20 @@
+{
+  "name": "artesanica",
+  "version": "1.0.0",
+  "description": "Plataforma de comercio electrónico para productos artesanales de Niquinohomo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "ecommerce",
+    "artesanias",
+    "niquinohomo",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

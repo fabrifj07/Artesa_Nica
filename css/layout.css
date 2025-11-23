@@ -1,0 +1,363 @@
+/* ===================================================================
+   ARTESANICA - CSS LAYOUT (MAQUETACIÓN)
+   =================================================================== */
+
+/* --- BARRA DE NAVEGACIÓN SUPERIOR (ESCRITORIO) --- */
+.navbar {
+    background-color: var(--color-blanco);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 0.75rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    display: flex; /* ¡AÑADIDO! */
+    align-items: center; /* ¡AÑADIDO! */
+    gap: 0.5rem; /* ¡AÑADIDO! */
+}
+
+.navbar-search {
+    width: 35%;
+    display: none; /* Oculto en móvil por defecto */
+}
+
+.navbar-icons {
+    display: none; /* Oculto en móvil por defecto */
+    align-items: center;
+    gap: 1.5rem;
+    margin-left: auto; /* Empuja los íconos a la derecha en escritorio */
+}
+
+.navbar-icons .nav-icon {
+    position: relative;
+    color: var(--color-texto);
+    font-size: 1.6rem; /* Aumentado de 1.3rem */
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem; /* Aumentado de 0.25rem */
+    text-decoration: none;
+    padding: 0.75rem 1rem; /* Aumentado el padding */
+}
+
+.navbar-icons .nav-icon:hover {
+    color: var(--color-primary);
+}
+
+.nav-icon-label {
+    font-size: 0.9rem; /* Aumentado de 0.7rem */
+    font-weight: 500;
+    color: var(--color-texto);
+    line-height: 1.2;
+    transition: color 0.2s ease;
+    white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+}
+
+.navbar-icons .nav-icon:hover .nav-icon-label {
+    color: var(--color-primary);
+}
+
+/* Asegurar que el contador de notificaciones se posicione correctamente */
+.nav-counter {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #4CAF50; /* Color verde esmeralda */
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 50%;
+    height: 18px;
+    min-width: 18px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    z-index: 10;
+    transform: translate(25%, -25%);
+    pointer-events: none; /* Evitar que el contador interfiera con los clics */
+    box-sizing: border-box;
+    line-height: 1;
+    text-align: center;
+}
+
+/* --- SECCIONES PRINCIPALES --- */
+.main-content {
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    background-color: var(--color-fondo, #ffffff);
+}
+
+.section {
+    padding: 3rem 0;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2.5rem; /* Restaurado al valor original */
+}
+
+/* Ajuste específico para el título de noticias */
+#seccion-noticias .section-title {
+    margin-bottom: 1.5rem; /* Aplicado solo a la sección de noticias */
+}
+
+/* Estilo para los títulos de sección principales */
+.main-section-title {
+    font-size: 2.5rem; /* Tamaño aumentado */
+    font-weight: 700; /* Peso de fuente más grueso */
+    text-align: center !important;
+    margin: 0 auto 2rem !important; /* Mayor margen inferior */
+    width: 100%;
+    display: block;
+    color: var(--color-texto-primario);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    text-transform: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Fuente del sistema para mejor legibilidad */
+}
+
+/* Secciones específicas que se ocultan/muestran */
+.seccion-principal {
+    padding-bottom: 90px; /* Espacio para barra de navegación móvil */
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+    background: linear-gradient(to right, #f0fff4, #e6f7ff);
+    padding: 2.5rem 0 4rem; /* Reducido el padding superior a 2.5rem */
+}
+
+.hero-section .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.hero-content {
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.125rem;
+    color: var(--color-texto-secundario);
+    margin-bottom: 2rem;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.hero-image {
+    width: 100%;
+    max-height: 350px; /* Altura máxima reducida a 350px */
+    overflow: hidden;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+}
+
+/* --- GRID LAYOUT --- */
+.grid-container {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(1, 1fr); /* Por defecto 1 columna */
+}
+
+/* --- FOOTER --- */
+.footer {
+    background-color: #111827; /* gray-900 */
+    color: #9ca3af; /* gray-400 */
+    padding: 3rem 0 1rem 0;
+    margin-top: 2rem;
+}
+
+.footer .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2.5rem;
+}
+
+.footer h3, .footer h4 {
+    color: var(--color-blanco);
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer a:not(.social-link) {
+    color: #9ca3af; /* gray-400 */
+}
+
+.footer a:hover {
+    color: var(--color-blanco);
+}
+
+.footer .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.footer .social-link {
+    font-size: 1.25rem;
+}
+
+.footer .footer-bottom {
+    border-top: 1px solid #374151; /* gray-700 */
+    margin-top: 2rem;
+    padding-top: 2rem;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+
+/* --- BARRA DE NAVEGACIÓN INFERIOR (MÓVIL) --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--color-blanco);
+    border-top: 1px solid var(--color-borde);
+    z-index: 100;
+    display: block; /* Visible por defecto en móvil */
+}
+
+.bottom-nav .nav-list {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+
+.bottom-nav .nav-item {
+    flex: 1;
+    padding: 0.6rem 0;
+}
+
+.bottom-nav .nav-item a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    color: var(--color-texto-secundario);
+    position: relative;
+}
+
+.bottom-nav .nav-item i {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.bottom-nav .nav-item span {
+    font-size: 0.75rem;
+}
+
+.bottom-nav .nav-item a.active {
+    color: var(--color-primary);
+}
+
+/* --- MAQUETACIÓN DEL CARRITO --- */
+.carrito-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* --- PANEL DE VENDEDOR --- */
+.seller-panel {
+    background-color: #f3f4f6; /* Un gris muy claro */
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+    padding: 1rem 0;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease;
+    overflow: hidden;
+    max-height: 0; /* Oculto por defecto */
+    opacity: 0;
+}
+
+.seller-panel.show {
+    max-height: 200px; /* Altura suficiente para mostrar los enlaces */
+    opacity: 1;
+}
+
+.seller-panel .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.seller-panel-link {
+    font-weight: 500;
+    color: var(--color-texto-secundario);
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.seller-panel-link:hover {
+    color: var(--color-texto);
+    background-color: #e5e7eb;
+}
+
+.seller-panel-link.active {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+    .carrito-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr; /* 2/3 para la lista, 1/3 para el resumen */
+        gap: 2.5rem;
+        align-items: flex-start; /* Alinea los items en la parte superior */
+    }
+
+    #resumen-carrito {
+        position: sticky;
+        top: 110px; /* (Altura de la navbar + un poco de margen) */
+    }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Menu</title>
+</head>
+<body>
+    <h1>Test de Menú</h1>
+    
+    <button onclick="testFunction()">Test 1: Función directa</button>
+    <button onclick="app.testAppFunction()">Test 2: Función en app</button>
+    <button onclick="app.showMisPedidos()">Test 3: showMisPedidos</button>
+    
+    <div id="output"></div>
+    
+    <script>
+        function testFunction() {
+            document.getElementById('output').innerHTML += '<p>Test 1 funcionó!</p>';
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            function testAppFunction() {
+                document.getElementById('output').innerHTML += '<p>Test 2 funcionó!</p>';
+            }
+            
+            function showMisPedidos() {
+                document.getElementById('output').innerHTML += '<p>showMisPedidos funcionó!</p>';
+            }
+            
+            window.app = {
+                testAppFunction: testAppFunction,
+                showMisPedidos: showMisPedidos
+            };
+            
+            console.log('window.app definido:', window.app);
+        });
+    </script>
+</body>
+</html>
