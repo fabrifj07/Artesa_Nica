@@ -77,9 +77,6 @@
     // Actualizar navegación activa
     updateActiveNav(section);
     
-    // Actualizar botón de volver
-    updateBackButton();
-    
     // Actualizar URL sin recargar
     const url = new URL(window.location);
     url.searchParams.set('section', section);
@@ -110,8 +107,6 @@
     url.searchParams.set('section', 'tienda');
     url.searchParams.set('store', storeId);
     history.pushState({ section: 'tienda', storeId }, '', url);
-    
-    updateBackButton();
   }
 
   /**
@@ -122,29 +117,6 @@
     console.log(`Navegando a producto: ${productId}`);
     // Por ahora, solo mostrar el producto en la sección actual
     // Esto se puede expandir si se crea una vista de producto individual
-  }
-
-  /**
-   * Vuelve a la sección anterior en el historial
-   */
-  function goBack() {
-    console.log('goBack llamado. Historial actual:', navigationHistory);
-    
-    if (navigationHistory.length > 1) {
-      // Quitar la sección actual
-      navigationHistory.pop();
-      
-      // Obtener la sección anterior
-      const previousSection = navigationHistory[navigationHistory.length - 1];
-      console.log(`Volviendo a: ${previousSection}`);
-      
-      // Navegar sin agregar al historial
-      navigateTo(previousSection, false);
-    } else {
-      // Si no hay historial, ir a inicio
-      console.log('No hay historial, volviendo a inicio');
-      navigateTo('inicio');
-    }
   }
 
   /**
@@ -167,47 +139,6 @@
     if (activeEl) {
       activeEl.classList.add('active');
     }
-  }
-
-  /**
-   * Actualiza la visibilidad y funcionalidad del botón volver
-   */
-  function updateBackButton() {
-    const backButton = document.getElementById('back-button');
-    
-    if (!backButton) {
-      console.warn('Botón de volver no encontrado');
-      return;
-    }
-    
-    // Mostrar solo si no estamos en inicio
-    if (currentSection === 'inicio') {
-      backButton.classList.add('hidden');
-    } else {
-      backButton.classList.remove('hidden');
-      
-      // Actualizar el texto según la sección anterior
-      if (navigationHistory.length > 1) {
-        const previousSection = navigationHistory[navigationHistory.length - 2];
-        updateBackButtonText(previousSection);
-      } else {
-        updateBackButtonText('inicio');
-      }
-    }
-  }
-
-  /**
-   * Actualiza el texto del botón según la sección anterior
-   * @param {string} previousSection - Sección anterior
-   */
-  function updateBackButtonText(previousSection) {
-    const backButton = document.getElementById('back-button');
-    const span = backButton?.querySelector('span');
-    
-    if (!span) return;
-    
-    const sectionName = SECTION_NAMES[previousSection] || 'Volver';
-    span.textContent = `Volver a ${sectionName}`;
   }
 
   /**
@@ -258,7 +189,6 @@
     navigationHistory = ['inicio'];
     currentSection = 'inicio';
     currentStoreId = null;
-    updateBackButton();
     console.log('Historial limpiado');
   }
 
@@ -297,9 +227,6 @@
         navigateTo(section, false);
       }
     }
-    
-    // Actualizar botón de volver
-    updateBackButton();
   }
 
   // =================================================================================
@@ -311,7 +238,6 @@
     goTo: navigateTo,
     goToStore: navigateToStore,
     goToProduct: navigateToProduct,
-    goBack,
     
     // Alias para compatibilidad
     showSection,

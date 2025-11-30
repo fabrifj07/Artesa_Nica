@@ -119,12 +119,31 @@
       { name: currentUser?.nombre || "" }
     );
 
-    // Limpiar sesión
+    // Limpiar sesión - usar múltiples métodos para asegurar limpieza completa
     window.StorageModule.setCurrentUser(null);
-
-    // Navegar a inicio
-    if (window.NavigationModule) {
+    
+    // También limpiar localStorage directo por compatibilidad
+    localStorage.removeItem("artesanica_session");
+    localStorage.removeItem("artesanica_currentUser");
+    
+    // Sincronizar con variables globales de main.js si existen
+    if (typeof window.currentUser !== 'undefined') {
+      window.currentUser = null;
+    }
+    
+    // Disparar evento global de logout para que otros componentes se actualicen
+    window.dispatchEvent(new CustomEvent('user:logout'));
+    
+    // Navegación a inicio - intentar múltiples métodos
+    if (typeof window.navigateTo === 'function') {
+      window.navigateTo("inicio");
+    } else if (window.NavigationModule) {
       window.NavigationModule.goTo("inicio");
+    } else {
+      // Último fallback - recargar la página
+      setTimeout(() => {
+        window.location.href = window.location.pathname;
+      }, 1000);
     }
 
     // Limpiar contador del carrito
@@ -269,6 +288,38 @@
     if (registerTab) {
       registerTab.addEventListener("click", () => showAuthModal("register"));
     }
+
+    // Inicializar botones de mostrar/ocultar contraseña
+    initPasswordToggles();
+  }
+
+  /**
+   * Inicializa los botones de mostrar/ocultar contraseña
+   */
+  function initPasswordToggles() {
+    const toggleButtons = document.querySelectorAll('.password-toggle');
+    
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const passwordInput = document.getElementById(targetId);
+        const icon = this.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+          // Mostrar contraseña
+          passwordInput.type = 'text';
+          icon.classList.remove('far', 'fa-eye');
+          icon.classList.add('fas', 'fa-eye-slash');
+          this.setAttribute('aria-label', 'Ocultar contraseña');
+        } else {
+          // Ocultar contraseña
+          passwordInput.type = 'password';
+          icon.classList.remove('fas', 'fa-eye-slash');
+          icon.classList.add('far', 'fa-eye');
+          this.setAttribute('aria-label', 'Mostrar contraseña');
+        }
+      });
+    });
   }
 
   // =================================================================================

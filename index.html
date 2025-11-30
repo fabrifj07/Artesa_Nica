@@ -25,8 +25,7 @@
        =================================================================== -->
     <nav class="navbar">
         <div class="container">
-            <a href="#" id="back-button" class="navbar-brand hidden back-button" onclick="NavigationModule.goBack(); return false;" title="Volver a la página anterior" data-i18n-attr="title=nav.back"><i class="fas fa-arrow-left"></i> <span data-i18n="nav.back">Volver</span></a>
-            <a href="#" id="logo-link" class="navbar-brand" title="Ir a la página de inicio">Artesanica<img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Artesanica Logo" class="navbar-brand-img"></a>
+            <a href="#" id="logo-link" class="navbar-brand" onclick="NavigationModule.goTo('inicio'); return false;" title="Ir a la página de inicio">Artesanica<img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Artesanica Logo" class="navbar-brand-img"></a>
             
             <div class="navbar-icons">
                 <a href="#" id="desktop-buscar" class="nav-icon" title="Buscar productos" data-i18n-attr="title=nav.search">
@@ -116,7 +115,7 @@
                         <p style="color: #555; margin-bottom: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;" data-i18n="news.description">
                             Descubre las últimas noticias, eventos y actualizaciones de la comunidad artesanal.
                         </p>
-                        <a href="noticias.html" class="btn btn-primary" style="margin-top: 1rem;" data-i18n="[html]actions.viewNews">
+                        <a href="#" id="news-card-button" class="btn btn-primary" style="margin-top: 1rem;" data-i18n="[html]actions.viewNews">
                             <i class="fas fa-book-open" style="margin-right: 0.5rem;"></i> <span data-i18n="news.viewButton">Ver Noticias</span>
                         </a>
                     </div>
@@ -142,10 +141,7 @@
         <div id="seccion-perfil" class="seccion-principal">
             <div class="profile-container">
                 <div class="profile-header">
-                    <button class="back-button" onclick="NavigationModule.goBack()">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <h2 class="profile-title">Mi Perfil</h2>
+                    <h2 class="profile-title" data-i18n="profile.title">Mi Perfil</h2>
                     <div class="profile-actions">
                         <button class="search-button">
                             <i class="fas fa-search"></i>
@@ -167,7 +163,7 @@
                         <div class="user-info">
                             <h3 class="user-name">fernan</h3>
                             <p class="user-email">fabri07@gmail.com</p>
-                            <p class="member-since">Miembro desde: <strong>8 de noviembre de 2025</strong></p>
+                            <p class="member-since"><span data-i18n="profile.memberSince">Miembro desde:</span> <strong>8 de noviembre de 2025</strong></p>
                         </div>
                     </div>
 
@@ -176,7 +172,7 @@
                         <div class="balance-content">
                             <i class="fas fa-wallet"></i>
                             <div class="balance-details">
-                                <span class="balance-label">Total de Compras Hechas</span>
+                                <span class="balance-label" data-i18n="profile.totalPurchases">Total de Compras Hechas</span>
                                 <span class="balance-amount">C$13,900.00</span>
                             </div>
                         </div>
@@ -184,34 +180,34 @@
 
                     <!-- Menú de cuenta -->
                     <div class="account-section">
-                        <h3 class="section-title">MI CUENTA</h3>
+                        <h3 class="section-title" data-i18n="profile.myAccount">MI CUENTA</h3>
                         <div class="menu-list">
                             <a href="#" class="menu-item" id="menu-mis-pedidos" onclick="app.showMisPedidos(); return false;">
                                 <div class="menu-icon">
                                     <i class="fas fa-shopping-bag"></i>
                                 </div>
-                                <span class="menu-text">Mis Pedidos</span>
+                                <span class="menu-text" data-i18n="profile.myOrders">Mis Pedidos</span>
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                             <a href="#" class="menu-item" onclick="app.showSection('seccion-mis-favoritos'); return false;">
                                 <div class="menu-icon">
                                     <i class="fas fa-heart"></i>
                                 </div>
-                                <span class="menu-text">Mis Favoritos</span>
+                                <span class="menu-text" data-i18n="profile.myFavorites">Mis Favoritos</span>
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                             <a href="#" class="menu-item">
                                 <div class="menu-icon">
                                     <i class="fas fa-map-marker-alt"></i>
                                 </div>
-                                <span class="menu-text">Mis Direcciones</span>
+                                <span class="menu-text" data-i18n="profile.myAddresses">Mis Direcciones</span>
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                             <a href="#" class="menu-item">
                                 <div class="menu-icon">
                                     <i class="far fa-credit-card"></i>
                                 </div>
-                                <span class="menu-text">Mis Métodos de Pago</span>
+                                <span class="menu-text" data-i18n="profile.myPaymentMethods">Mis Métodos de Pago</span>
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
@@ -219,27 +215,27 @@
 
                     <!-- Sección de aplicación -->
                     <div class="app-section">
-                        <h3 class="section-title">APLICACIÓN</h3>
+                        <h3 class="section-title" data-i18n="profile.application">APLICACIÓN</h3>
                         <div class="menu-list">
                             <a href="#" class="menu-item">
                                 <div class="menu-icon">
                                     <i class="fas fa-cog"></i>
                                 </div>
-                                <span class="menu-text">Configuración</span>
+                                <span class="menu-text" data-i18n="profile.settings">Configuración</span>
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                             <a href="#" class="menu-item">
                                 <div class="menu-icon">
                                     <i class="fas fa-share-alt"></i>
                                 </div>
-                                <span class="menu-text">compartir web</span>
+                                <span class="menu-text" data-i18n="profile.shareWeb">Compartir Web</span>
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                             <a href="#" class="menu-item">
                                 <div class="menu-icon">
                                     <i class="fas fa-sign-out-alt"></i>
                                 </div>
-                                <span class="menu-text">Cerrar Sesión</span>
+                                <span class="menu-text" data-i18n="profile.logout">Cerrar Sesión</span>
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
@@ -252,9 +248,6 @@
         <div id="seccion-mis-pedidos" class="seccion-principal hidden">
             <div class="container">
                 <div class="profile-header">
-                    <button class="back-button" onclick="NavigationModule.goBack()">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
                     <h2 class="profile-title">Mis Pedidos</h2>
                 </div>
                 <div class="profile-content">
@@ -269,9 +262,6 @@
         <div id="seccion-mis-favoritos" class="seccion-principal hidden">
             <div class="container">
                 <div class="profile-header">
-                    <button class="back-button" onclick="NavigationModule.goBack()">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
                     <h2 class="profile-title">Mis Favoritos</h2>
                 </div>
                 <div class="profile-content">
@@ -435,6 +425,12 @@
         </div>
     </main>
     
+    <!-- Botón flotante para volver a tiendas (solo visible en vista de tienda) -->
+    <button id="back-to-stores-btn" class="floating-back-btn" onclick="window.location.href='tiendas.html'" style="display: none;">
+        <i class="fas fa-arrow-left"></i>
+        <span>Volver a Tiendas</span>
+    </button>
+
     <!-- ===================================================================
        FOOTER
        =================================================================== -->
@@ -477,7 +473,12 @@
                     </div>
                     <div class="form-group">
                         <label for="login-password" class="form-label" data-i18n="auth.password">Contraseña</label>
-                        <input type="password" id="login-password" class="form-input" required>
+                        <div class="password-input-container">
+                            <input type="password" id="login-password" class="form-input" required>
+                            <button type="button" class="password-toggle" data-target="login-password" aria-label="Mostrar contraseña">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-full-width" data-i18n="auth.loginButton">Iniciar sesión</button>
                 </form>
@@ -497,7 +498,12 @@
                     </div>
                     <div class="form-group">
                         <label for="register-password" class="form-label" data-i18n="auth.password">Contraseña</label>
-                        <input type="password" id="register-password" class="form-input" required>
+                        <div class="password-input-container">
+                            <input type="password" id="register-password" class="form-input" required>
+                            <button type="button" class="password-toggle" data-target="register-password" aria-label="Mostrar contraseña">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-full-width" data-i18n="auth.registerButton">Registrarme</button>
                 </form>
@@ -535,6 +541,9 @@
     
     <!-- Cargar lógica principal de la aplicación -->
     <script src="/js/main.js"></script>
+    
+    <!-- SINCRONIZACIÓN GLOBAL DEL CARRITO -->
+    <script src="/js/global-cart-sync.js"></script>
     <script>
         // Función para manejar la navegación
         function handleNavigation() {
@@ -548,12 +557,78 @@
                 section.classList.add('hidden');
             });
 
+            // Ocultar botón flotante de volver a tiendas por defecto
+            const backBtn = document.getElementById('back-to-stores-btn');
+            if (backBtn) {
+                backBtn.style.display = 'none';
+            }
+
             // Mostrar la sección correspondiente según los parámetros de la URL
             if (section === 'tienda' && storeId) {
                 // Mostrar sección de tienda
                 document.getElementById('seccion-tienda').classList.remove('hidden');
                 document.querySelectorAll('.nav-item a').forEach(link => link.classList.remove('active'));
                 document.getElementById('nav-inicio')?.classList.add('active');
+                
+                // Mostrar botón flotante de volver a tiendas
+                const backBtn = document.getElementById('back-to-stores-btn');
+                if (backBtn) {
+                    backBtn.style.display = 'flex';
+                }
+                
+                // Cargar productos de la tienda específica
+                console.log('=== CARGANDO TIENDA ESPECÍFICA ===');
+                console.log('Store ID:', storeId);
+                
+                // Buscar la tienda
+                const tienda = window.tiendasData?.find(t => t.id === storeId);
+                if (tienda) {
+                    console.log('Tienda encontrada:', tienda.nombre);
+                    
+                    // Actualizar información de la tienda en la vista
+                    const tiendaNombre = document.getElementById('tienda-nombre');
+                    const tiendaDescripcion = document.getElementById('tienda-descripcion');
+                    const tiendaImagen = document.getElementById('tienda-imagen');
+                    
+                    if (tiendaNombre) tiendaNombre.textContent = tienda.nombre;
+                    if (tiendaDescripcion) tiendaDescripcion.textContent = tienda.descripcion || 'Tienda de artesanías';
+                    if (tiendaImagen) tiendaImagen.src = tienda.foto_perfil || 'img/default-store.jpg';
+                    
+                    // Cargar productos de esta tienda
+                    const productosTienda = window.productosData?.filter(p => p.tienda?.id === storeId);
+                    console.log('Productos de la tienda:', productosTienda?.length || 0);
+                    
+                    // Renderizar productos si existe la función
+                    if (typeof window.renderTiendaProducts === 'function') {
+                        window.renderTiendaProducts(productosTienda || []);
+                    } else if (typeof window.app?.renderTiendaProducts === 'function') {
+                        window.app.renderTiendaProducts(productosTienda || []);
+                    } else {
+                        console.log('No se encontró función para renderizar productos de tienda');
+                    }
+                } else {
+                    console.log('Tienda no encontrada:', storeId);
+                }
+            } else if (section === 'buscar') {
+                // Mostrar sección de buscar
+                document.getElementById('seccion-buscar').classList.remove('hidden');
+                document.querySelectorAll('.nav-item a').forEach(link => link.classList.remove('active'));
+                document.getElementById('nav-buscar')?.classList.add('active');
+            } else if (section === 'carrito') {
+                // Mostrar sección de carrito
+                document.getElementById('seccion-carrito').classList.remove('hidden');
+                document.querySelectorAll('.nav-item a').forEach(link => link.classList.remove('active'));
+                document.getElementById('nav-carrito')?.classList.add('active');
+            } else if (section === 'noticias') {
+                // Mostrar sección de noticias
+                document.getElementById('seccion-noticias').classList.remove('hidden');
+                document.querySelectorAll('.nav-item a').forEach(link => link.classList.remove('active'));
+                document.getElementById('nav-noticias')?.classList.add('active');
+            } else if (section === 'perfil') {
+                // Mostrar sección de perfil
+                document.getElementById('seccion-perfil').classList.remove('hidden');
+                document.querySelectorAll('.nav-item a').forEach(link => link.classList.remove('active'));
+                document.getElementById('nav-perfil')?.classList.add('active');
             } else if (configuracion === 'true') {
                 // Mostrar sección de configuración
                 document.getElementById('seccion-configuracion').classList.remove('hidden');

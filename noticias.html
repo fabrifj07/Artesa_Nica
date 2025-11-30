@@ -298,7 +298,12 @@
             <div id="login-content" class="modal-tab-content">
                 <form id="login-form">
                     <input type="email" placeholder="Correo electrónico" required class="form-input">
-                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <div class="password-input-container">
+                        <input type="password" placeholder="Contraseña" required class="form-input">
+                        <button type="button" class="password-toggle" data-target="login-password" aria-label="Mostrar contraseña">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
                     <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                 </form>
             </div>
@@ -306,7 +311,12 @@
                 <form id="register-form">
                     <input type="text" placeholder="Nombre completo" required class="form-input">
                     <input type="email" placeholder="Correo electrónico" required class="form-input">
-                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <div class="password-input-container">
+                        <input type="password" placeholder="Contraseña" required class="form-input">
+                        <button type="button" class="password-toggle" data-target="register-password" aria-label="Mostrar contraseña">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
                     <button type="submit" class="btn btn-primary">Registrarse</button>
                 </form>
             </div>
@@ -324,20 +334,15 @@
 
     <!-- SCRIPTS -->
     <script src="js/modules/storage.js"></script>
+    
+    <!-- SINCRONIZACIÓN GLOBAL DEL CARRITO -->
+    <script src="js/global-cart-sync.js"></script>
     <script>
         // Actualizar contador de carrito
         document.addEventListener('DOMContentLoaded', function() {
-            if (window.StorageModule) {
-                const currentUser = window.StorageModule.getCurrentUser();
-                const cartCount = currentUser?.carrito?.reduce((sum, item) => sum + (item.cantidad || 0), 0) || 0;
-                
-                document.querySelectorAll('#contador-carrito, #contador-carrito-desk').forEach(el => {
-                    if (el) {
-                        el.textContent = cartCount;
-                        el.style.display = cartCount > 0 ? 'flex' : 'none';
-                        el.classList.toggle('hidden', cartCount === 0);
-                    }
-                });
+            // Usar la función global de sincronización
+            if (typeof window.syncCartCounterGlobal === 'function') {
+                window.syncCartCounterGlobal();
             }
         });
     </script>

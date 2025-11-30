@@ -76,9 +76,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if (logoutButton) {
       logoutButton.addEventListener("click", function (e) {
         e.preventDefault();
-        logout();
+        if (window.AuthModule) {
+          window.AuthModule.logout();
+        } else {
+          // Fallback si AuthModule no está disponible
+          currentUser = null;
+          localStorage.removeItem("artesanica_session");
+          navigateTo("inicio");
+        }
       });
     }
+    
+    // Escuchar evento global de logout para sincronizar estado
+    window.addEventListener('user:logout', () => {
+      console.log('Evento user:logout recibido, sincronizando estado');
+      currentUser = null;
+      updateUI(); // Actualizar UI para reflejar que no hay usuario
+    });
   }
 
   // =================================================================================
@@ -315,18 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return false;
   }
 
-  function logout() {
-    notify(
-      "auth.goodbye",
-      `Hasta pronto, ${currentUser?.nombre || ""}`,
-      "info",
-      { name: currentUser?.nombre || "" }
-    );
-    currentUser = null;
-    localStorage.removeItem("artesanica_session");
-    navigateTo("inicio");
-  }
-
+  
   function ensureAuth() {
     if (currentUser) return true;
     notify(
@@ -361,7 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   function notify(key, fallback, type = "info", params = {}) {
     const msg = window.i18n?.t?.(key, params) || fallback;
-    showNotification(msg, type);
+    window.UtilsModule.showNotification(msg, type);
   }
   function getLocale() {
     const lang = window.i18n?.getLang?.() || "es";
@@ -877,27 +880,43 @@ document.addEventListener("DOMContentLoaded", () => {
           window.i18n?.t?.("stores.defaultDescription") ||
           "Tienda de artesanías";
         return `
-            <div class="store-card" onclick="app.navigateToStore('${
-              store.id
-            }')">
-                <div class="store-image-container">
-                    <img src="${store.imagen || "img/default-store.jpg"}" 
-                         alt="${sName}" 
-                         class="store-image">
-                </div>
-                <div class="store-content">
-                    <h3 class="store-name">${sName}</h3>
-                    <p class="store-description">${sDesc}</p>
-                    <div class="store-button">
-                        <span>${
-                          window.i18n?.t?.("actions.viewStore") || "Ver Tienda"
-                        }</span>
-                        <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+            <div class="store-card-custom" data-store-id="${store.id}">
+                <img src="${store.foto_perfil || store.imagen || "img/default-store.jpg"}" 
+                     alt="${sName}" 
+                     class="store-image-custom"
+                     loading="lazy">
+                <div class="store-content-custom">
+                    <h3 class="store-name-custom">${sName}</h3>
+                    <p class="store-description-custom">${sDesc}</p>
+                    <div class="store-meta-custom">
+                        <span><i class="fas fa-map-marker-alt"></i> ${store.ubicacion || 'Niquinohomo'}</span>
+                        <span style="margin-left: auto; color: var(--color-primario, #4CAF50); font-weight: 500;">Visitar <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </div>
             </div>`;
       })
       .join("");
+
+    // Agregar event listeners a las cards de tiendas
+    const storeCards = container.querySelectorAll('.store-card-custom');
+    storeCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const storeId = this.getAttribute('data-store-id');
+            console.log('Clic en tienda detectado en index.html:', storeId);
+            console.log('Navegando a tienda:', storeId);
+            
+            // Navegar usando el sistema de navegación del proyecto
+            if (window.app && window.app.navigateToStore) {
+                window.app.navigateToStore(storeId);
+            } else {
+                // Fallback: redirección directa
+                window.location.href = `index.html?section=tienda&store=${storeId}`;
+            }
+        });
+    });
 
     // Si no hay tiendas para mostrar
     if ((!storesToDisplay || storesToDisplay.length === 0) && container) {
@@ -1709,6 +1728,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "desktop-buscar": "buscar",
       "desktop-carrito": "carrito",
       "desktop-noticias": "noticias",
+      "news-card-button": "noticias",
     };
     Object.keys(navMapping).forEach((id) => {
       document.getElementById(id)?.addEventListener("click", (e) => {
@@ -1850,20 +1870,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (activeEl) activeEl.classList.add("active");
   }
 
-  function showNotification(message, type = "info") {
-    const notif = document.createElement("div");
-    notif.className = `notification ${type}`;
-    notif.textContent = message;
-    document.body.appendChild(notif);
-    setTimeout(() => {
-      notif.classList.add("show");
-    }, 10);
-    setTimeout(() => {
-      notif.classList.remove("show");
-      setTimeout(() => notif.remove(), 500);
-    }, 3000);
-  }
-
+  
   function renderCategoriesAndFilters() {
     const container = document.getElementById("categorias-container");
     if (!container) return;
@@ -1939,7 +1946,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function markAsDelivered(orderId) {
     if (!currentUser) {
-      showNotification(
+      window.UtilsModule.showNotification(
         "Debes iniciar sesión para marcar el pedido como recibido",
         "error"
       );
@@ -1951,7 +1958,7 @@ document.addEventListener("DOMContentLoaded", () => {
       (o) => o.id === orderId
     );
     if (orderIndex === -1) {
-      showNotification("No se encontró el pedido", "error");
+      window.UtilsModule.showNotification("No se encontró el pedido", "error");
       return;
     }
 
@@ -1971,7 +1978,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Mostrar notificación
-      showNotification(
+      window.UtilsModule.showNotification(
         "¡Producto marcado como recibido correctamente!",
         "exito"
       );
@@ -2046,7 +2053,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showOrderDetails(orderId) {
     const order = currentUser.historialCompras.find((o) => o.id === orderId);
     if (!order) {
-      showNotification("No se encontró el pedido solicitado", "error");
+      window.UtilsModule.showNotification("No se encontró el pedido solicitado", "error");
       return;
     }
 
@@ -2063,12 +2070,12 @@ document.addEventListener("DOMContentLoaded", () => {
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 2rem;
+            padding: 1rem;
             z-index: 1000;
             overflow-y: auto;
         `;
 
-    // Contenido del modal
+    // Contenido del modal con responsive
     modal.innerHTML = `
             <div class="modal-content" style="
                 background-color: white;
@@ -2077,29 +2084,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 max-width: 800px;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
                 overflow: hidden;
+                margin: auto;
             ">
                 <!-- Encabezado del modal -->
                 <div style="
-                    padding: 1.5rem;
+                    padding: 1rem;
                     border-bottom: 1px solid #eee;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
                 ">
-                    <h3 style="margin: 0; font-size: 1.5rem; font-weight: 600;">
+                    <h3 style="margin: 0; font-size: 1.2rem; font-weight: 600; flex: 1; min-width: 200px;">
                         <i class="fas fa-receipt" style="margin-right: 0.5rem; color: var(--color-primary);"></i>
                         Factura #${order.facturaId || order.id.slice(-6)}
                     </h3>
-                    <button id="closeModal" class="btn-icon" style="font-size: 1.25rem; color: #6c757d;">
+                    <button id="closeModal" class="btn-icon" style="font-size: 1.25rem; color: #6c757d; padding: 0.5rem; background: none; border: none;">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
 
                 <!-- Cuerpo del modal -->
-                <div style="padding: 1.5rem;">
+                <div style="padding: 1rem; max-height: 70vh; overflow-y: auto;">
                     <!-- Información de la tienda -->
-                    <div style="margin-bottom: 2rem; padding: 1rem; background-color: #f8f9fa; border-radius: 6px;">
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: #f8f9fa; border-radius: 6px;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
                             <div style="
                                 width: 50px;
                                 height: 50px;
@@ -2110,14 +2120,15 @@ document.addEventListener("DOMContentLoaded", () => {
                                 justify-content: center;
                                 color: white;
                                 font-size: 1.5rem;
+                                flex-shrink: 0;
                             ">
                                 <i class="fas fa-store"></i>
                             </div>
-                            <div>
-                                <h4 style="margin: 0 0 0.25rem 0; font-size: 1.1rem; font-weight: 600;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <h4 style="margin: 0 0 0.25rem 0; font-size: 1rem; font-weight: 600;">
                                     ${order.storeName || "Tienda"}
                                 </h4>
-                                <p style="margin: 0; font-size: 0.9rem; color: var(--color-texto-secundario);">
+                                <p style="margin: 0; font-size: 0.85rem; color: var(--color-texto-secundario);">
                                     ${
                                       order.storeId
                                         ? `ID: ${order.storeId}`
@@ -2126,14 +2137,14 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </p>
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem;">
                             <div>
-                                <div style="font-size: 0.8rem; color: var(--color-texto-secundario); margin-bottom: 0.25rem;">Fecha</div>
-                                <div>${new Date(order.fecha).toLocaleDateString(
+                                <div style="font-size: 0.75rem; color: var(--color-texto-secundario); margin-bottom: 0.25rem;">Fecha</div>
+                                <div style="font-size: 0.85rem; word-break: break-word;">${new Date(order.fecha).toLocaleDateString(
                                   "es-ES",
                                   {
                                     year: "numeric",
-                                    month: "long",
+                                    month: "short",
                                     day: "numeric",
                                     hour: "2-digit",
                                     minute: "2-digit",
@@ -2141,7 +2152,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 )}</div>
                             </div>
                             <div>
-                                <div style="font-size: 0.8rem; color: var(--color-texto-secundario); margin-bottom: 0.25rem;">Estado</div>
+                                <div style="font-size: 0.75rem; color: var(--color-texto-secundario); margin-bottom: 0.25rem;">Estado</div>
                                 <div>
                                     <span class="status-badge" style="
                                         background-color: ${getStatusColor(
@@ -2150,7 +2161,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         color: white;
                                         padding: 0.25rem 0.75rem;
                                         border-radius: 12px;
-                                        font-size: 0.8rem;
+                                        font-size: 0.75rem;
                                         display: inline-block;
                                     ">${
                                       order.estado.charAt(0).toUpperCase() +
@@ -2159,54 +2170,51 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </div>
                             </div>
                             <div>
-                                <div style="font-size: 0.8rem; color: var(--color-texto-secundario); margin-bottom: 0.25rem;">Método de entrega</div>
-                                <div>${
+                                <div style="font-size: 0.75rem; color: var(--color-texto-secundario); margin-bottom: 0.25rem;">Entrega</div>
+                                <div style="font-size: 0.85rem;">${
                                   order.metodoEntrega === "domicilio"
                                     ? "A domicilio"
-                                    : "Retiro en local"
+                                    : "Retiro local"
                                 }</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Productos del pedido -->
-                    <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">
-                        Productos
+                    <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">
+                        Productos (${order.items?.length || 0})
                     </h4>
                     
-                    <div style="margin-bottom: 2rem;">
+                    <div style="margin-bottom: 1.5rem;">
                         ${
                           order.items && order.items.length > 0
                             ? order.items
                                 .map(
                                   (item) => `
-                                <div style="display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #f0f0f0;">
+                                <div style="display: flex; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #f0f0f0; align-items: flex-start;">
                                     <img src="${
-                                      item.productData?.imagen ||
-                                      "https://via.placeholder.com/80"
+                                      item.productImage || item.productData?.imagen || "https://via.placeholder.com/60"
                                     }" 
                                          alt="${
-                                           item.productData?.nombre ||
-                                           "Producto"
+                                           item.productName || item.productData?.nombre || "Producto"
                                          }" 
-                                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
-                                    <div style="flex: 1;">
-                                        <div style="font-weight: 600; margin-bottom: 0.25rem;">
+                                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; flex-shrink: 0;">
+                                    <div style="flex: 1; min-width: 0;">
+                                        <div style="font-weight: 600; margin-bottom: 0.25rem; font-size: 0.9rem; word-break: break-word;">
                                             ${
-                                              item.productData?.nombre ||
+                                              item.productName || item.productData?.nombre ||
                                               "Producto no disponible"
                                             }
                                         </div>
-                                        <div style="font-size: 0.9rem; color: var(--color-texto-secundario); margin-bottom: 0.5rem;">
-                                            Cantidad: ${item.cantidad} x C$${
-                                    item.productData?.precio?.toFixed(2) ||
-                                    "0.00"
+                                        <div style="font-size: 0.85rem; color: var(--color-texto-secundario); margin-bottom: 0.5rem;">
+                                            ${item.cantidad} × C$${
+                                    item.productPrice || item.productData?.precio || "0.00"
                                   }
                                         </div>
-                                        <div style="font-weight: 600; color: var(--color-primary);">
+                                        <div style="font-weight: 600; color: var(--color-primary); font-size: 0.9rem;">
                                             C$${
                                               (
-                                                item.productData?.precio *
+                                                (item.productPrice || item.productData?.precio || 0) *
                                                 item.cantidad
                                               ).toFixed(2) || "0.00"
                                             }
@@ -2216,18 +2224,18 @@ document.addEventListener("DOMContentLoaded", () => {
                             `
                                 )
                                 .join("")
-                            : "<p>No se encontraron productos en este pedido.</p>"
+                            : "<p style='text-align: center; color: var(--color-texto-secundario);'>No se encontraron productos en este pedido.</p>"
                         }
                     </div>
 
                     <!-- Resumen del pedido -->
-                    <div style="background-color: #f8f9fa; border-radius: 6px; padding: 1.5rem; margin-top: 2rem;">
-                        <h4 style="font-size: 1.1rem; font-weight: 600; margin-top: 0; margin-bottom: 1.5rem; text-align: center;">
+                    <div style="background-color: #f8f9fa; border-radius: 6px; padding: 1rem; margin-top: 1.5rem;">
+                        <h4 style="font-size: 1rem; font-weight: 600; margin-top: 0; margin-bottom: 1rem; text-align: center;">
                             Resumen del Pedido
                         </h4>
                         
-                        <div style="margin-bottom: 1.5rem;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
                                 <span>Subtotal (${
                                   order.items?.length || 0
                                 } productos):</span>
@@ -2235,13 +2243,13 @@ document.addEventListener("DOMContentLoaded", () => {
                                   order.subtotal?.toFixed(2) || "0.00"
                                 }</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid #ddd;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #ddd; font-size: 0.9rem;">
                                 <span>Envío:</span>
                                 <span>C$${
                                   order.envio?.toFixed(2) || "0.00"
                                 }</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 600; margin-top: 1rem;">
+                            <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 600; margin-top: 0.5rem;">
                                 <span>Total:</span>
                                 <span style="color: var(--color-primary);">C$${
                                   order.total?.toFixed(2) || "0.00"
@@ -2253,22 +2261,22 @@ document.addEventListener("DOMContentLoaded", () => {
                         ${
                           order.metodoEntrega === "domicilio"
                             ? `
-                            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
-                                <h5 style="font-size: 1rem; font-weight: 600; margin-top: 0; margin-bottom: 0.75rem;">
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <h5 style="font-size: 0.9rem; font-weight: 600; margin-top: 0; margin-bottom: 0.5rem;">
                                     <i class="fas fa-truck" style="margin-right: 0.5rem; color: var(--color-primary);"></i>
                                     Dirección de Envío
                                 </h5>
-                                <p style="margin: 0; line-height: 1.5;">
+                                <p style="margin: 0; line-height: 1.4; font-size: 0.85rem; word-break: break-word;">
                                     ${order.direccionEnvio || "No especificada"}
                                 </p>
                             </div>
                         `
                             : `
-                            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee; text-align: center;">
-                                <i class="fas fa-store" style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 0.5rem; display: block;"></i>
-                                <p style="margin: 0; font-weight: 500;">Recogerás tu pedido en la tienda</p>
-                                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: var(--color-texto-secundario);">
-                                    Te notificaremos cuando tu pedido esté listo
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; text-align: center;">
+                                <i class="fas fa-store" style="font-size: 1.2rem; color: var(--color-primary); margin-bottom: 0.5rem; display: block;"></i>
+                                <p style="margin: 0; font-weight: 500; font-size: 0.9rem;">Recogerás tu pedido en la tienda</p>
+                                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem; color: var(--color-texto-secundario);">
+                                    Te notificaremos cuando esté listo
                                 </p>
                             </div>
                         `
@@ -2276,9 +2284,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
 
                     <!-- Botones de acción -->
-                    <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee; flex-wrap: wrap;">
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: flex-end; width: 100%;">
-                            <button id="printReceipt" class="btn btn-outline" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
+                            <button id="printReceipt" class="btn btn-outline" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.75rem; font-size: 0.9rem;">
                                 <i class="fas fa-print"></i> Imprimir Recibo
                             </button>
                             ${
@@ -2286,13 +2294,13 @@ document.addEventListener("DOMContentLoaded", () => {
                                 order.estado
                               )
                                 ? `
-                            <button id="markAsDelivered" class="btn btn-success" style="display: flex; align-items: center; gap: 0.5rem; background-color: #28a745; color: white; border: none;">
+                            <button id="markAsDelivered" class="btn btn-success" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.75rem; font-size: 0.9rem; background-color: #28a745; color: white; border: none;">
                                 <i class="fas fa-check-circle"></i> Marcar como Recibido
                             </button>
                             `
                                 : ""
                             }
-                            <button id="contactSeller" class="btn" style="display: flex; align-items: center; gap: 0.5rem; 
+                            <button id="contactSeller" class="btn" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.75rem; font-size: 0.9rem; 
                                 background-color: ${getStatusColor(
                                   order.estado,
                                   "buttonBg"
@@ -2320,10 +2328,119 @@ document.addEventListener("DOMContentLoaded", () => {
     // Agregar el modal al documento
     document.body.appendChild(modal);
 
+    // Añadir estilos específicos para impresión
+    const printStyles = document.createElement('style');
+    printStyles.textContent = `
+        @media print {
+            /* Ocultar todo el body */
+            body > *:not(.modal) {
+                display: none !important;
+            }
+            
+            /* Mostrar solo el modal */
+            .modal {
+                display: block !important;
+                position: static !important;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            
+            /* Ocultar botones y elementos interactivos */
+            .modal button {
+                display: none !important;
+            }
+            
+            /* Optimizar el modal-content para impresión */
+            .modal-content {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                margin: 20px !important;
+                max-width: 100% !important;
+                width: calc(100% - 40px) !important;
+                page-break-inside: avoid;
+            }
+            
+            /* Ocultar la sección de botones de acción */
+            .modal-content > div > div:last-child {
+                display: none !important;
+            }
+            
+            /* Ocultar botón de cerrar */
+            .modal-content > div > div:first-child button {
+                display: none !important;
+            }
+            
+            /* Encabezado de impresión */
+            .modal-content::before {
+                content: "ARTESANICA NICARAGUA - FACTURA";
+                display: block;
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #333;
+            }
+            
+            /* Footer de impresión */
+            .modal-content::after {
+                content: "Gracias por su compra - www.artesanica.ni";
+                display: block;
+                text-align: center;
+                font-size: 12px;
+                margin-top: 30px;
+                padding-top: 10px;
+                border-top: 1px solid #ddd;
+                color: #666;
+            }
+            
+            /* Optimizar espaciado para impresión */
+            .modal-content > div > div {
+                margin-bottom: 15px !important;
+            }
+            
+            /* Asegurar que los productos no se corten */
+            .modal-content > div > div:nth-child(3) > div > div {
+                page-break-inside: avoid;
+                margin-bottom: 8px !important;
+            }
+            
+            /* Tamaños de fuente para impresión */
+            .modal-content h3 {
+                font-size: 16px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .modal-content h4 {
+                font-size: 14px !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .modal-content p, .modal-content span, .modal-content div {
+                font-size: 12px !important;
+                line-height: 1.4 !important;
+            }
+            
+            /* Optimizar tablas de resumen */
+            .modal-content > div > div:nth-child(4) > div > div > div {
+                margin-bottom: 5px !important;
+            }
+        }
+    `;
+    document.head.appendChild(printStyles);
+
     // Configurar eventos del modal
     const closeButton = modal.querySelector("#closeModal");
     if (closeButton) {
       closeButton.addEventListener("click", () => {
+        // Limpiar estilos de impresión si existen
+        if (printStyles.parentNode) {
+          printStyles.parentNode.removeChild(printStyles);
+        }
         document.body.removeChild(modal);
       });
     }
@@ -2331,6 +2448,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Cerrar al hacer clic fuera del contenido
     modal.addEventListener("click", (e) => {
       if (e.target === modal) {
+        // Limpiar estilos de impresión si existen
+        if (printStyles.parentNode) {
+          printStyles.parentNode.removeChild(printStyles);
+        }
         document.body.removeChild(modal);
       }
     });
@@ -2339,7 +2460,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const printButton = modal.querySelector("#printReceipt");
     if (printButton) {
       printButton.addEventListener("click", () => {
-        window.print();
+        // Aplicar estilos de impresión
+        document.head.appendChild(printStyles);
+        
+        // Pequeño delay para asegurar que los estilos se apliquen
+        setTimeout(() => {
+          // Abrir diálogo de impresión
+          window.print();
+          
+          // Limpiar estilos después de imprimir (o cancelar)
+          setTimeout(() => {
+            if (printStyles.parentNode) {
+              printStyles.parentNode.removeChild(printStyles);
+            }
+          }, 1000);
+        }, 100);
       });
     }
 
@@ -2348,7 +2483,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (contactButton) {
       contactButton.addEventListener("click", () => {
         if (!order || !order.storeId) {
-          showNotification(
+          window.UtilsModule.showNotification(
             "No se encontró la información del vendedor",
             "error"
           );
@@ -2362,7 +2497,7 @@ document.addEventListener("DOMContentLoaded", () => {
             storeId: order.storeId,
             store,
           });
-          showNotification(
+          window.UtilsModule.showNotification(
             "No se encontró la información de contacto del vendedor",
             "error"
           );
@@ -2370,7 +2505,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         let message = `*¡Hola!* 👋\n\n`;
-        message += `Soy *${currentUser.nombre || "Cliente"}* `;
+        message += `Soy *${currentUser?.nombre || "Cliente"}* `;
 
         // Personalizar mensaje según el estado del pedido
         const estado = order.estado.toLowerCase();
@@ -2388,10 +2523,9 @@ document.addEventListener("DOMContentLoaded", () => {
           // Productos
           message += `*🛍️ Productos Solicitados:*\n\n`;
           order.items.forEach((item, index) => {
-            const productName = item.productData?.nombre || "Producto";
-            message += `${index + 1}. *${productName}* (${item.cantidad} x C$${
-              item.productData?.precio?.toFixed(2) || "0.00"
-            })\n`;
+            const productName = item.productName || item.productData?.nombre || "Producto";
+            const productPrice = item.productPrice || item.productData?.precio || 0;
+            message += `${index + 1}. *${productName}* (${item.cantidad} x C$${productPrice.toFixed(2)})\n`;
           });
 
           message += `\n*💰 Total: C$${order.total?.toFixed(2) || "0.00"}*\n\n`;
@@ -2436,8 +2570,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Información de contacto del cliente
         message += `\n\n*Mis datos de contacto:*\n`;
-        message += `📱 ${currentUser.telefono || "Sin teléfono registrado"}\n`;
-        message += `📧 ${currentUser.email || "Sin correo registrado"}`;
+        message += `📱 ${currentUser?.telefono || currentUser?.phone || "Sin teléfono registrado"}\n`;
+        message += `📧 ${currentUser?.email || "Sin correo registrado"}`;
+        message += `\n👤 ${currentUser?.nombre || "Cliente"}`;
 
         // Codificar el mensaje para URL
         const encodedMessage = encodeURIComponent(message);
@@ -2448,7 +2583,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Verificar si el número tiene el formato correcto (al menos 8 dígitos)
         if (!phoneNumber || phoneNumber.length < 8) {
           console.error("Número de teléfono no válido:", store.contacto);
-          showNotification(
+          window.UtilsModule.showNotification(
             "El número de teléfono del vendedor no es válido",
             "error"
           );
@@ -2475,7 +2610,7 @@ document.addEventListener("DOMContentLoaded", () => {
           newWindow.closed ||
           typeof newWindow.closed === "undefined"
         ) {
-          showNotification(
+          window.UtilsModule.showNotification(
             "No se pudo abrir WhatsApp. Por favor, verifica si tienes un bloqueador de ventanas emergentes.",
             "error"
           );
@@ -2556,7 +2691,17 @@ document.addEventListener("DOMContentLoaded", () => {
     showOrderDetails,
     markAsDelivered,
     payForStore,
-    logout,
+    logout: () => {
+    // Usar AuthModule para la notificación y limpieza principal
+    if (window.AuthModule) {
+      window.AuthModule.logout();
+    } else {
+      // Fallback si AuthModule no está disponible
+      currentUser = null;
+      localStorage.removeItem("artesanica_session");
+      navigateTo("inicio");
+    }
+  },
     processPayment,
     navigateTo,
     navigateToStore,

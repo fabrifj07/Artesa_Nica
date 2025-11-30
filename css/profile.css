@@ -12,15 +12,6 @@
     display: none; /* Ocultar por defecto */
 }
 
-.back-button {
-    background: none;
-    border: none;
-    font-size: 1.25rem;
-    color: #333;
-    padding: 0.5rem;
-    cursor: pointer;
-}
-
 .profile-title {
     font-size: 1.25rem;
     font-weight: 600;
@@ -281,7 +272,7 @@
     font-size: 0.8rem;
 }
 
-/* Ajustes para pantallas más grandes */
+/* Estilos para pantallas más grandes */
 @media (min-width: 768px) {
     .seccion-principal {
         padding: 0;
@@ -319,6 +310,17 @@
     /* Asegurarse de que no haya desbordamiento horizontal */
     body {
         overflow-x: hidden;
+    }
+}
+
+/* Ocultar botón de volver en sección de perfil para móvil */
+@media (max-width: 767px) {
+    #seccion-perfil ~ nav .back-button,
+    #seccion-perfil ~ nav #back-button {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
     }
 }
 

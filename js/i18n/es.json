@@ -52,7 +52,14 @@
     "emptyPrompt": "Busca productos o artesanos.",
     "noResults": "No se encontraron productos."
   },
+  "products": {
+    "title": "Todos los Productos",
+    "description": "Explora nuestra completa colección de artesanías únicas hechas por artesanos locales.",
+    "empty": "No hay productos para mostrar en este momento."
+  },
   "stores": {
+    "title": "Nuestros Artesanos",
+    "description": "Conoce a los creadores detrás de cada pieza única. Apoya el talento local de Niquinohomo.",
     "empty": "No hay tiendas disponibles en este momento.",
     "generic": "Tienda",
     "defaultDescription": "Tienda de artesanías"
@@ -112,5 +119,19 @@
     "hamacas": "Hamacas",
     "repujado": "Repujado",
     "all": "Todas"
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "myAccount": "MI CUENTA",
+    "myOrders": "Mis Pedidos",
+    "myFavorites": "Mis Favoritos",
+    "myAddresses": "Mis Direcciones",
+    "myPaymentMethods": "Mis Métodos de Pago",
+    "application": "APLICACIÓN",
+    "settings": "Configuración",
+    "shareWeb": "Compartir Web",
+    "logout": "Cerrar Sesión",
+    "totalPurchases": "Total de Compras Hechas",
+    "memberSince": "Miembro desde:"
   }
 }

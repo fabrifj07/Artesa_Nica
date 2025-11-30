@@ -105,6 +105,14 @@
    * @param {string} type - Tipo de notificación
    */
   function showNotification(message, type = "info") {
+    // Eliminar notificaciones existentes del mismo tipo para evitar duplicación
+    const existingNotifications = document.querySelectorAll(`.notification.${type}`);
+    existingNotifications.forEach(notif => {
+      if (notif.textContent === message) {
+        notif.remove();
+      }
+    });
+    
     const notif = document.createElement("div");
     notif.className = `notification ${type}`;
     notif.textContent = message;

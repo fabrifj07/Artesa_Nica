@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta tags para evitar caché en móvil -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Tiendas y Artesanos - ArtesaNica</title>
     <meta name="description" content="Conoce a los talentosos artesanos de Niquinohomo. Visita sus tiendas virtuales y descubre sus historias.">
     
@@ -30,6 +34,11 @@
             justify-content: space-between; /* Distribuir espacio */
         }
 
+        /* Ocultar botón de volver en móvil porque ya está en la barra inferior */
+        .navbar .back-button {
+            display: none;
+        }
+
         .navbar-icons {
             display: none; /* Ocultar íconos en móvil */
         }
@@ -42,6 +51,20 @@
         @media (min-width: 768px) {
             .navbar .container {
                 gap: 1.5rem;
+            }
+
+            /* Mostrar botón de volver solo en escritorio */
+            .navbar .back-button {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                color: var(--color-texto);
+                font-size: 0.9rem;
+                transition: color 0.2s;
+            }
+
+            .navbar .back-button:hover {
+                color: var(--color-primario);
             }
 
             .navbar-icons {
@@ -58,21 +81,62 @@
 
         .nav-icon {
             position: relative;
-            color: var(--color-texto);
-            font-size: 1.4rem;
-            text-decoration: none;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: background 0.2s;
         }
 
-        .nav-icon:hover {
-            background-color: #f0f0f0;
-            color: var(--color-primario);
+        .navbar-icons .nav-icon {
+            position: relative;
+            color: var(--color-texto);
+            font-size: 1.6rem; /* Aumentado de 1.3rem */
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem; /* Aumentado de 0.25rem */
+            text-decoration: none;
+            padding: 0.75rem 1rem; /* Aumentado el padding */
+        }
+
+        .navbar-icons .nav-icon:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-icon-label {
+            font-size: 0.9rem; /* Aumentado de 0.7rem */
+            font-weight: 500;
+            color: var(--color-texto);
+            line-height: 1.2;
+            transition: color 0.2s ease;
+            white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+        }
+
+        .navbar-icons .nav-icon:hover .nav-icon-label {
+            color: var(--color-primary);
+        }
+
+        /* Estilos ORIGINALES del selector de idioma como en responsive.css */
+        /* Idioma: móvil por defecto */
+        #lang-selector { /* selector de escritorio: oculto en móvil */
+            display: none;
+        }
+        #lang-selector-mobile { /* visible en móvil */
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Responsive para escritorio */
+        @media (min-width: 768px) {
+            #lang-selector { /* visible en escritorio */
+                display: inline-flex;
+                align-items: center;
+                gap: 0.25rem;
+            }
+            #lang-selector-mobile { /* oculto en escritorio */
+                display: none;
+            }
         }
 
         /* Badge del carrito */
@@ -97,7 +161,7 @@
             display: none;
         }
 
-        /* --- CORRECCIÓN GRID Y TARJETAS --- */
+        /* --- CORRECCIÓN GRID Y TARJETAS (IGUAL AL RESPALDO) --- */
         .stores-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -150,6 +214,7 @@
             flex-grow: 1;
             display: -webkit-box;
             -webkit-line-clamp: 3;
+            line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -163,6 +228,23 @@
             margin-top: auto;
             padding-top: 1rem;
             border-top: 1px solid #eee;
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 768px) {
+            .stores-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stores-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0.5rem 0;
+            }
         }
 
         /* --- MODAL --- */
@@ -211,35 +293,49 @@
     <nav class="navbar">
 
         <div class="container">
-            <a href="index.html" class="navbar-brand" title="Volver a inicio">
-                <i class="fas fa-arrow-left"></i> 
-                <span>Inicio</span>
-            </a>
-            <a href="index.html" class="navbar-brand">
+            <a href="index.html" class="navbar-brand" title="Ir a la página de inicio">
                 Artesanica
                 <img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Logo" class="navbar-brand-img">
             </a>
             
             <div class="navbar-icons">
-                <a href="index.html#buscar" class="nav-icon"><i class="fas fa-search"></i></a>
-                <a href="index.html#carrito" class="nav-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="contador-carrito-desk" class="badge hidden">0</span>
+                <a href="#" id="desktop-buscar" class="nav-icon" title="Buscar productos" data-i18n-attr="title=nav.search">
+                    <i class="fas fa-search"></i>
+                    <span class="nav-icon-label" data-i18n="nav.search">Buscar</span>
                 </a>
-                <a href="index.html#perfil" class="nav-icon"><i class="fas fa-user"></i></a>
+                <a href="#" id="desktop-noticias" class="nav-icon" title="Noticias" data-i18n-attr="title=nav.news">
+                    <i class="fas fa-newspaper"></i>
+                    <span class="nav-icon-label" data-i18n="sections.news">Noticias</span>
+                </a>
+                <a href="#" id="lang-selector" class="nav-icon" title="Cambiar idioma" data-i18n-attr="title=nav.changeLanguage">
+                    <i class="fas fa-globe"></i>
+                    <span class="nav-icon-label" id="lang-code-desktop" data-i18n="nav.language">Idioma</span>
+                </a>
+                <a href="#" id="desktop-carrito" class="nav-icon" title="Ver mi carrito de compras" data-i18n-attr="title=nav.cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="nav-icon-label" data-i18n="bottom.cart">Carrito</span>
+                    <span id="contador-carrito-desk" class="nav-counter hidden">0</span>
+                </a>
+                <a href="#" id="desktop-perfil" class="nav-icon" title="Ver mi perfil" data-i18n-attr="title=nav.profile">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-icon-label" data-i18n="bottom.profile">Perfil</span>
+                </a>
             </div>
+            <a href="#" id="lang-selector-mobile" class="nav-icon" title="Cambiar idioma" data-i18n-attr="title=nav.changeLanguage" style="margin-left:auto;">
+                <i class="fas fa-globe"></i>
+                <span id="lang-code-mobile">ES</span>
+            </a>
         </div>
     </nav>
 
     <!-- CONTENIDO -->
     <main class="main-content">
         <div class="container section" style="padding-top: 2rem;">
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
-                    <i class="fas fa-store" style="color: var(--color-primario); margin-right: 0.5rem;"></i>
+            <div style="text-align: left; margin-bottom: 3rem;">
+                <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 1rem;" data-i18n="stores.title">
                     Nuestros Artesanos
                 </h1>
-                <p style="color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                <p style="color: #666; font-size: 1.1rem; max-width: 600px; text-align: left;" data-i18n="stores.description">
                     Conoce a los creadores detrás de cada pieza única. Apoya el talento local de Niquinohomo.
                 </p>
             </div>
@@ -269,7 +365,12 @@
             <div id="login-content" class="modal-tab-content">
                 <form id="login-form">
                     <input type="email" placeholder="Correo electrónico" required class="form-input">
-                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <div class="password-input-container">
+                        <input type="password" placeholder="Contraseña" required class="form-input">
+                        <button type="button" class="password-toggle" data-target="login-password" aria-label="Mostrar contraseña">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
                     <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                 </form>
             </div>
@@ -277,7 +378,12 @@
                 <form id="register-form">
                     <input type="text" placeholder="Nombre completo" required class="form-input">
                     <input type="email" placeholder="Correo electrónico" required class="form-input">
-                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <div class="password-input-container">
+                        <input type="password" placeholder="Contraseña" required class="form-input">
+                        <button type="button" class="password-toggle" data-target="register-password" aria-label="Mostrar contraseña">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
                     <button type="submit" class="btn btn-primary">Registrarse</button>
                 </form>
             </div>
@@ -286,11 +392,13 @@
 
     <!-- BOTTOM NAV (Móvil) -->
     <nav class="bottom-nav">
-        <div class="nav-item"><a href="index.html"><i class="fas fa-home"></i><span>Inicio</span></a></div>
-        <div class="nav-item"><a href="productos.html"><i class="fas fa-shopping-bag"></i><span>Productos</span></a></div>
-        <div class="nav-item"><a href="tiendas.html" class="active"><i class="fas fa-store"></i><span>Tiendas</span></a></div>
-        <div class="nav-item"><a href="index.html#carrito"><i class="fas fa-shopping-cart"></i><span>Carrito</span><span id="contador-carrito" class="badge hidden">0</span></a></div>
-        <div class="nav-item"><a href="index.html#perfil"><i class="fas fa-user"></i><span>Perfil</span></a></div>
+        <ul class="nav-list">
+            <li class="nav-item"><a href="index.html" id="nav-inicio"><i class="fas fa-home"></i><span data-i18n="bottom.home">Inicio</span></a></li>
+            <li class="nav-item"><a href="#" id="nav-tiendas"><i class="fas fa-store"></i><span>Tiendas</span></a></li>
+            <li class="nav-item"><a href="index.html#buscar" id="nav-buscar"><i class="fas fa-search"></i><span data-i18n="bottom.search">Buscar</span></a></li>
+            <li class="nav-item"><a href="index.html#carrito" id="nav-carrito"><i class="fas fa-shopping-cart"></i><span data-i18n="bottom.cart">Carrito</span><span id="contador-carrito" class="nav-counter hidden">0</span></a></li>
+            <li class="nav-item"><a href="index.html#perfil" id="nav-perfil"><i class="fas fa-user"></i><span data-i18n="bottom.profile">Perfil</span></a></li>
+        </ul>
     </nav>
 
     <!-- SCRIPTS -->
@@ -300,56 +408,426 @@
     <script src="js/modules/utils.js"></script>
     <script src="js/modules/storage.js"></script>
     <script src="js/modules/auth.js"></script>
+    <script src="js/modules/navigation.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- SINCRONIZACIÓN GLOBAL DEL CARRITO -->
+    <script src="js/global-cart-sync.js"></script>
     
     <script>
         (function() {
             'use strict';
 
-            window.addEventListener('load', function() {
-                console.log('Página de tiendas cargada');
+            // Función para inicializar la página (se puede llamar múltiples veces)
+            function initializePage() {
+                console.log('=== INICIALIZANDO PÁGINA DE TIENDAS ===');
+                
+                // Forzar limpieza del caché y recarga completa
+                forceRefreshContent();
+                
+                // Verificar si los datos están disponibles
+                if (!window.tiendasData || window.tiendasData.length === 0) {
+                    console.log('Esperando datos de tiendas...');
+                    setTimeout(() => {
+                        initializePage();
+                    }, 500);
+                    return;
+                }
+                
                 renderStores();
+                // Usar la función global de sincronización
+                if (typeof window.syncCartCounterGlobal === 'function') {
+                    window.syncCartCounterGlobal();
+                }
+                setupNavigationEvents();
+                
+                // Detección de problemas en móvil
+                detectMobileIssues();
+            }
+
+            // Función para forzar la recarga completa del contenido
+            function forceRefreshContent() {
+                console.log('Forzando recarga completa del contenido...');
+                
+                // Limpiar completamente el contenedor de tiendas
+                const container = document.getElementById('tiendas-container');
+                if (container) {
+                    // Limpiar HTML
+                    container.innerHTML = '';
+                    
+                    // Forzar reflow
+                    container.style.display = 'none';
+                    container.offsetHeight; // Forzar reflow
+                    container.style.display = '';
+                    
+                    // Remover cualquier clase residual
+                    container.className = 'stores-grid';
+                }
+                
+                // Actualizar la barra inferior y sus funciones
+                refreshBottomNav();
+                
+                // Recargar datos si es necesario
+                if (window.tiendasData && window.tiendasData.length > 0) {
+                    console.log(`Datos disponibles: ${window.tiendasData.length} tiendas`);
+                } else {
+                    console.log('Intentando recargar datos...');
+                    // Intentar recargar los datos si hay una función disponible
+                    if (typeof window.loadStoresData === 'function') {
+                        window.loadStoresData();
+                    }
+                }
+                
+                // Limpiar cualquier timeout anterior
+                if (window.refreshTimeout) {
+                    clearTimeout(window.refreshTimeout);
+                }
+            }
+
+            // Función para actualizar la barra inferior y sus funciones
+            function refreshBottomNav() {
+                console.log('Actualizando barra inferior...');
+                
+                // Limpiar completamente todos los estados activos de forma segura
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.querySelectorAll('.nav-item a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Establecer "Tiendas" como activo de forma consistente
+                const tiendasNav = document.getElementById('nav-tiendas');
+                if (tiendasNav) {
+                    const parentItem = tiendasNav.closest('.nav-item');
+                    if (parentItem) {
+                        parentItem.classList.add('active');
+                    }
+                }
+                
+                // Re-actualizar el contador del carrito en la barra inferior con sincronización forzada
+                console.log('Sincronización forzada del contador en refreshBottomNav...');
                 updateCartCounter();
+                
+                // Forzar una segunda actualización para asegurar sincronización
+                setTimeout(() => {
+                    console.log('Segunda actualización forzada del contador...');
+                    updateCartCounter();
+                }, 100);
+                
+                // Re-configurar event listeners de la barra inferior
+                setupBottomNavEvents();
+            }
+
+            // Configurar eventos específicos de la barra inferior
+            function setupBottomNavEvents() {
+                console.log('Configurando eventos de la barra inferior...');
+                
+                // Evento específico para el botón de tiendas (evita navegación)
+                const tiendasNav = document.getElementById('nav-tiendas');
+                if (tiendasNav) {
+                    // Remover listeners anteriores de forma segura
+                    const newTiendasNav = tiendasNav.cloneNode(true);
+                    tiendasNav.parentNode.replaceChild(newTiendasNav, tiendasNav);
+                    
+                    // Agregar nuevo listener
+                    newTiendasNav.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log('Ya estás en la página de tiendas');
+                        // Opcional: hacer scroll hacia arriba
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
+                }
+                
+                // Actualizar contador del carrito específicamente en la barra inferior
+                const cartCounter = document.getElementById('contador-carrito');
+                if (cartCounter) {
+                    // Forzar actualización del contador
+                    if (window.StorageModule) {
+                        const currentUser = window.StorageModule.getCurrentUser();
+                        const cartCount = currentUser?.carrito?.reduce((sum, item) => sum + (item.cantidad || 0), 0) || 0;
+                        
+                        cartCounter.textContent = cartCount;
+                        cartCounter.style.display = cartCount > 0 ? 'flex' : 'none';
+                        cartCounter.classList.toggle('hidden', cartCount === 0);
+                    }
+                }
+            }
+
+            // Detección de problemas específicos de móvil
+            function detectMobileIssues() {
+                const container = document.getElementById('tiendas-container');
+                const cards = container.querySelectorAll('.store-card-custom');
+                
+                // Si no hay cards después de 2 segundos, hay un problema
+                setTimeout(() => {
+                    const newCards = container.querySelectorAll('.store-card-custom');
+                    if (newCards.length === 0) {
+                        console.log('Detectado problema en móvil, forzando re-render...');
+                        renderStores();
+                    }
+                }, 2000);
+                
+                // Verificar si los event listeners están funcionando
+                if (cards.length > 0) {
+                    console.log(`Cards renderizadas: ${cards.length}`);
+                    // Agregar un indicador visual para debugging
+                    cards.forEach((card, index) => {
+                        card.style.border = '2px solid transparent';
+                        setTimeout(() => {
+                            card.style.border = '';
+                        }, 1000);
+                    });
+                }
+            }
+
+            // Event listener para carga completa
+            window.addEventListener('load', function() {
+                console.log('Página de tiendas cargada completamente');
+                initializePage();
+                // Forzar sincronización del carrito
+                setTimeout(updateCartCounter, 100);
             });
 
+            // Event listener para cuando la página se vuelve visible (ej: volver de index.html)
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    console.log('Página visible nuevamente, refrescando tiendas...');
+                    // Limpiar cualquier timeout anterior
+                    if (window.refreshTimeout) {
+                        clearTimeout(window.refreshTimeout);
+                    }
+                    // Esperar un poco y refrescar
+                    window.refreshTimeout = setTimeout(() => {
+                        forceRefreshContent();
+                        initializePage();
+                        // Forzar sincronización del carrito
+                        setTimeout(updateCartCounter, 200);
+                    }, 200);
+                }
+            });
+
+            // Event listener para focus de la ventana (importante para móvil)
+            window.addEventListener('focus', function() {
+                console.log('Ventana enfocada, verificando estado...');
+                // Limpiar cualquier timeout anterior
+                if (window.refreshTimeout) {
+                    clearTimeout(window.refreshTimeout);
+                }
+                window.refreshTimeout = setTimeout(() => {
+                    forceRefreshContent();
+                    initializePage();
+                    // Forzar sincronización del carrito
+                    setTimeout(updateCartCounter, 200);
+                }, 200);
+            });
+
+            // Event listener para pageshow (cuando el usuario usa el botón atrás del navegador)
+            window.addEventListener('pageshow', function(event) {
+                console.log('Pageshow detectado, persisted:', event.persisted);
+                // Si la página fue cargada desde el caché del navegador
+                if (event.persisted) {
+                    console.log('Página cargada desde caché, forzando recarga...');
+                    forceRefreshContent();
+                    initializePage();
+                }
+            });
+
+            // Event listener para popstate (cuando el usuario usa el botón atrás)
+            window.addEventListener('popstate', function(event) {
+                console.log('Popstate detectado, re-inicializando...');
+                setTimeout(() => {
+                    forceRefreshContent();
+                    initializePage();
+                }, 100);
+            });
+
+            // Detectar cuando el usuario viene de index.html (por el botón de volver)
+            window.addEventListener('DOMContentLoaded', function() {
+                // Verificar si venimos de index.html
+                const referrer = document.referrer;
+                if (referrer.includes('index.html')) {
+                    console.log('Viniendo de index.html, forzando recarga completa...');
+                    setTimeout(() => {
+                        forceRefreshContent();
+                        initializePage();
+                        // Sincronización forzada del carrito después de volver de tienda
+                        setTimeout(() => {
+                            console.log('Sincronización forzada del carrito después de volver de tienda...');
+                            updateCartCounter();
+                            // Doble verificación para asegurar sincronización
+                            setTimeout(updateCartCounter, 100);
+                        }, 300);
+                    }, 300);
+                }
+            });
+
+            // Configurar eventos de navegación como en index.html
+            function setupNavigationEvents() {
+                console.log('Configurando eventos de navegación...');
+                
+                // Primero configurar la barra inferior
+                setupBottomNavEvents();
+                
+                // Mapeo de navegación
+                const navMapping = {
+                    'nav-inicio': 'inicio',
+                    'nav-buscar': 'buscar',
+                    'nav-carrito': 'carrito',
+                    'nav-perfil': 'perfil'
+                };
+                
+                Object.keys(navMapping).forEach(id => {
+                    document.getElementById(id)?.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Para páginas externas, redirigir al index.html con la sección
+                        if (navMapping[id] === 'perfil') {
+                            // Perfil requiere autenticación
+                            if (!window.AuthModule || !window.AuthModule.isAuthenticated()) {
+                                window.location.href = 'index.html?section=perfil&auth=required';
+                                return;
+                            }
+                        }
+                        
+                        // Redirigir al index.html con la sección correspondiente
+                        window.location.href = `index.html?section=${navMapping[id]}`;
+                    });
+                });
+            }
+
+            // Renderizar tiendas con event listeners y redirección directa (como el respaldo)
             function renderStores() {
                 const container = document.getElementById('tiendas-container');
-                if (!container) return;
+                if (!container) {
+                    console.log('Contenedor de tiendas no encontrado');
+                    return;
+                }
 
                 const stores = window.tiendasData || [];
                 
                 if (stores.length === 0) {
-                    document.getElementById('empty-message').classList.remove('hidden');
+                    console.log('No hay tiendas disponibles');
+                    const emptyMsg = document.getElementById('empty-message');
+                    if (emptyMsg) {
+                        emptyMsg.classList.remove('hidden');
+                    }
                     return;
                 }
 
-                container.innerHTML = stores.map(store => `
-                    <div class="store-card-custom" onclick="window.location.href='index.html?section=tienda&store=${store.id}'">
-                        <img src="${store.foto_perfil || 'img/default-store.jpg'}" alt="${store.nombre}" class="store-image-custom">
+                console.log('=== RENDERIZANDO TIENDAS (MODO SIMPLE DIRECTO) ===');
+                console.log('Tiendas disponibles:', stores.length);
+
+                // Limpieza completa del contenedor
+                container.innerHTML = '';
+                container.className = 'stores-grid';
+                
+                // Forzar reflow para asegurar limpieza completa
+                container.style.display = 'none';
+                container.offsetHeight; // Forzar reflow
+                container.style.display = '';
+
+                // Ocultar mensaje de vacío si existe
+                const emptyMsg = document.getElementById('empty-message');
+                if (emptyMsg) {
+                    emptyMsg.classList.add('hidden');
+                }
+
+                // Limpiar event listeners anteriores si existen
+                const existingCards = container.querySelectorAll('.store-card-custom');
+                existingCards.forEach(card => {
+                    card.replaceWith(card.cloneNode(true));
+                });
+
+                // Crear cards y agregar event listeners con redirección directa
+                stores.forEach((store, index) => {
+                    const sName = store.nombre;
+                    const sDesc = store.descripcion || 'Tienda de artesanías';
+                    
+                    // Crear el elemento de la card (usando las clases del respaldo)
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'store-card-custom';
+                    cardElement.setAttribute('data-store-id', store.id);
+                    cardElement.setAttribute('data-store-index', index);
+                    
+                    // Crear el HTML interno (similar al respaldo pero con clases consistentes)
+                    cardElement.innerHTML = `
+                        <img src="${store.foto_perfil || store.imagen || 'img/default-store.jpg'}" 
+                             alt="${sName}" 
+                             class="store-image-custom"
+                             loading="lazy">
                         <div class="store-content-custom">
-                            <h3 class="store-name-custom">${store.nombre}</h3>
-                            <p class="store-description-custom">${store.descripcion || 'Tienda de artesanías locales.'}</p>
+                            <h3 class="store-name-custom">${sName}</h3>
+                            <p class="store-description-custom">${sDesc}</p>
                             <div class="store-meta-custom">
                                 <span><i class="fas fa-map-marker-alt"></i> ${store.ubicacion || 'Niquinohomo'}</span>
-                                <span style="margin-left: auto; color: var(--color-primario); font-weight: 500;">Visitar <i class="fas fa-arrow-right"></i></span>
+                                <span style="margin-left: auto; color: var(--color-primario, #4CAF50); font-weight: 500;">Visitar <i class="fas fa-arrow-right"></i></span>
                             </div>
                         </div>
-                    </div>
-                `).join('');
+                    `;
+                    
+                    // Agregar event listener con redirección directa (como en tu respaldo)
+                    cardElement.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const storeId = this.getAttribute('data-store-id');
+                        console.log('Clic en tienda detectado:', storeId);
+                        console.log('Redirigiendo directamente a index.html con tienda');
+                        
+                        // Forzar redirección limpia
+                        window.location.href = `index.html?section=tienda&store=${storeId}`;
+                    });
+                    
+                    // Agregar la card al contenedor
+                    container.appendChild(cardElement);
+                });
+                
+                console.log('=== TIENDAS RENDERIZADAS (MODO DIRECTO) ===');
+                console.log('Cards creadas:', container.querySelectorAll('.store-card-custom').length);
+                
+                // Forzar reflow para asegurar que todo se renderice correctamente en móvil
+                container.style.display = 'none';
+                container.offsetHeight; // Forzar reflow
+                container.style.display = '';
             }
 
             function updateCartCounter() {
-                if (!window.StorageModule) return;
-                const currentUser = window.StorageModule.getCurrentUser();
-                const cartCount = currentUser?.carrito?.reduce((sum, item) => sum + (item.cantidad || 0), 0) || 0;
+                console.log('Actualizando contador del carrito en tiendas.html...');
                 
-                document.querySelectorAll('#contador-carrito, #contador-carrito-desk').forEach(el => {
-                    if (el) {
-                        el.textContent = cartCount;
-                        el.style.display = cartCount > 0 ? 'flex' : 'none';
-                        el.classList.toggle('hidden', cartCount === 0);
-                    }
-                });
+                // Usar la función global de sincronización
+                if (typeof window.syncCartCounterGlobal === 'function') {
+                    console.log('Usando syncCartCounterGlobal...');
+                    window.syncCartCounterGlobal();
+                    return;
+                }
+                
+                // Fallback: intentar con otras funciones disponibles
+                if (typeof window.syncCartCounter === 'function') {
+                    console.log('Usando syncCartCounter...');
+                    window.syncCartCounter();
+                    return;
+                }
+                
+                console.log('No se encontró función de sincronización global');
             }
+
+            // Escuchar eventos de actualización del carrito
+            window.addEventListener('cartUpdated', function() {
+                console.log('Evento cartUpdated recibido en tiendas.html');
+                updateCartCounter();
+            });
+
+            // También escuchar cambios en el storage (para sincronización entre pestañas)
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'currentUser' || e.key === 'cartUpdated') {
+                    console.log('Cambio en storage detectado, actualizando contador...');
+                    setTimeout(updateCartCounter, 100);
+                }
+            });
+
+            // Forzar actualización inicial
+            setTimeout(updateCartCounter, 500);
         })();
     </script>
 </body>

@@ -109,6 +109,22 @@
     display: none;
 }
 
+/* Asegurar que el logo siempre sea visible */
+.navbar-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    text-decoration: none !important;
+    color: var(--color-primary) !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+}
+
+.navbar-brand-img {
+    height: 2.5rem !important;
+    margin-left: 0.5rem !important;
+}
+
 /* Idioma: móvil por defecto */
 #lang-selector { /* selector de escritorio: oculto en móvil */
     display: none;
@@ -245,6 +261,22 @@ body {
         display: flex;
     }
 
+    /* Asegurar que el logo sea visible en escritorio */
+    .navbar-brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        text-decoration: none !important;
+        color: var(--color-primary) !important;
+        font-size: 1.75rem !important;
+        font-weight: 700 !important;
+    }
+
+    .navbar-brand-img {
+        height: 2.5rem !important;
+        margin-left: 0.5rem !important;
+    }
+
     /* Idioma: escritorio */
     #lang-selector { /* visible en escritorio */
         display: inline-flex;
@@ -274,6 +306,11 @@ body {
 
     .footer .social-links {
         justify-content: flex-start;
+    }
+    
+    /* Ocultar elementos solo para escritorio en móvil */
+    .desktop-only {
+        display: none !important;
     }
 }
 

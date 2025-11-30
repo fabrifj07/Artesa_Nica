@@ -52,7 +52,14 @@
     "emptyPrompt": "Search products or artisans.",
     "noResults": "No products found."
   },
+  "products": {
+    "title": "All Products",
+    "description": "Explore our complete collection of unique handicrafts made by local artisans.",
+    "empty": "No products to display at this time."
+  },
   "stores": {
+    "title": "Our Artisans",
+    "description": "Meet the creators behind each unique piece. Support local talent from Niquinohomo.",
     "empty": "No stores available at this time.",
     "generic": "Store",
     "defaultDescription": "Handicraft store"
@@ -112,5 +119,19 @@
     "hamacas": "Hammocks",
     "repujado": "Repoussé",
     "all": "All"
+  },
+  "profile": {
+    "title": "My Profile",
+    "myAccount": "MY ACCOUNT",
+    "myOrders": "My Orders",
+    "myFavorites": "My Favorites",
+    "myAddresses": "My Addresses",
+    "myPaymentMethods": "My Payment Methods",
+    "application": "APPLICATION",
+    "settings": "Settings",
+    "shareWeb": "Share Web",
+    "logout": "Logout",
+    "totalPurchases": "Total Purchases Made",
+    "memberSince": "Member since:"
   }
 }

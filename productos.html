@@ -99,6 +99,7 @@
             color: var(--color-texto);
             display: -webkit-box;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -214,6 +215,11 @@
             justify-content: space-between; /* Distribuir espacio */
         }
 
+        /* Ocultar botón de volver en móvil porque ya está en la barra inferior */
+        .navbar .back-button {
+            display: none;
+        }
+
         .navbar-icons {
             display: none; /* Ocultar íconos en móvil (usamos barra inferior) */
         }
@@ -227,6 +233,20 @@
         @media (min-width: 768px) {
             .navbar .container {
                 gap: 1.5rem;
+            }
+
+            /* Mostrar botón de volver solo en escritorio */
+            .navbar .back-button {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                color: var(--color-texto);
+                font-size: 0.9rem;
+                transition: color 0.2s;
+            }
+
+            .navbar .back-button:hover {
+                color: var(--color-primario);
             }
 
             .navbar-icons {
@@ -243,21 +263,62 @@
 
         .nav-icon {
             position: relative;
-            color: var(--color-texto);
-            font-size: 1.4rem;
-            text-decoration: none;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: background 0.2s;
         }
 
-        .nav-icon:hover {
-            background-color: #f0f0f0;
-            color: var(--color-primario);
+        .navbar-icons .nav-icon {
+            position: relative;
+            color: var(--color-texto);
+            font-size: 1.6rem; /* Aumentado de 1.3rem */
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem; /* Aumentado de 0.25rem */
+            text-decoration: none;
+            padding: 0.75rem 1rem; /* Aumentado el padding */
+        }
+
+        .navbar-icons .nav-icon:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-icon-label {
+            font-size: 0.9rem; /* Aumentado de 0.7rem */
+            font-weight: 500;
+            color: var(--color-texto);
+            line-height: 1.2;
+            transition: color 0.2s ease;
+            white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+        }
+
+        .navbar-icons .nav-icon:hover .nav-icon-label {
+            color: var(--color-primary);
+        }
+
+        /* Estilos ORIGINALES del selector de idioma como en responsive.css */
+        /* Idioma: móvil por defecto */
+        #lang-selector { /* selector de escritorio: oculto en móvil */
+            display: none;
+        }
+        #lang-selector-mobile { /* visible en móvil */
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Responsive para escritorio */
+        @media (min-width: 768px) {
+            #lang-selector { /* visible en escritorio */
+                display: inline-flex;
+                align-items: center;
+                gap: 0.25rem;
+            }
+            #lang-selector-mobile { /* oculto en escritorio */
+                display: none;
+            }
         }
 
         /* Badge del carrito (Burbuja flotante) */
@@ -288,27 +349,38 @@
     <!-- BARRA DE NAVEGACIÓN -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="navbar-brand" title="Volver a inicio">
-                <i class="fas fa-arrow-left"></i> 
-                <span>Inicio</span>
-            </a>
             <a href="index.html" class="navbar-brand" title="Ir a la página de inicio">
                 Artesanica
                 <img src="https://i.postimg.cc/hj4kQDvb/logo-Artesanica-1.png" alt="Artesanica Logo" class="navbar-brand-img">
             </a>
             
             <div class="navbar-icons">
-                <a href="index.html#buscar" class="nav-icon" title="Buscar productos">
+                <a href="#" id="desktop-buscar" class="nav-icon" title="Buscar productos" data-i18n-attr="title=nav.search">
                     <i class="fas fa-search"></i>
+                    <span class="nav-icon-label" data-i18n="nav.search">Buscar</span>
                 </a>
-                <a href="index.html#carrito" class="nav-icon" title="Ver carrito">
+                <a href="#" id="desktop-noticias" class="nav-icon" title="Noticias" data-i18n-attr="title=nav.news">
+                    <i class="fas fa-newspaper"></i>
+                    <span class="nav-icon-label" data-i18n="sections.news">Noticias</span>
+                </a>
+                <a href="#" id="lang-selector" class="nav-icon" title="Cambiar idioma" data-i18n-attr="title=nav.changeLanguage">
+                    <i class="fas fa-globe"></i>
+                    <span class="nav-icon-label" id="lang-code-desktop" data-i18n="nav.language">Idioma</span>
+                </a>
+                <a href="#" id="desktop-carrito" class="nav-icon" title="Ver mi carrito de compras" data-i18n-attr="title=nav.cart">
                     <i class="fas fa-shopping-cart"></i>
-                    <span id="contador-carrito-desk" class="badge hidden">0</span>
+                    <span class="nav-icon-label" data-i18n="bottom.cart">Carrito</span>
+                    <span id="contador-carrito-desk" class="nav-counter hidden">0</span>
                 </a>
-                <a href="index.html#perfil" class="nav-icon" title="Mi perfil">
+                <a href="#" id="desktop-perfil" class="nav-icon" title="Ver mi perfil" data-i18n-attr="title=nav.profile">
                     <i class="fas fa-user"></i>
+                    <span class="nav-icon-label" data-i18n="bottom.profile">Perfil</span>
                 </a>
             </div>
+            <a href="#" id="lang-selector-mobile" class="nav-icon" title="Cambiar idioma" data-i18n-attr="title=nav.changeLanguage" style="margin-left:auto;">
+                <i class="fas fa-globe"></i>
+                <span id="lang-code-mobile">ES</span>
+            </a>
         </div>
     </nav>
 
@@ -316,12 +388,11 @@
     <main class="main-content">
         <div class="container section" style="padding-top: 2rem;">
             <!-- Encabezado de la página -->
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
-                    <i class="fas fa-shopping-bag" style="color: var(--color-primario); margin-right: 0.5rem;"></i>
+            <div style="text-align: left; margin-bottom: 3rem;">
+                <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 1rem;" data-i18n="products.title">
                     Todos los Productos
                 </h1>
-                <p style="color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                <p style="color: #666; font-size: 1.1rem; max-width: 600px; text-align: left;" data-i18n="products.description">
                     Explora nuestra colección completa de productos artesanales hechos con amor y tradición
                 </p>
             </div>
@@ -346,37 +417,13 @@
 
     <!-- NAVEGACIÓN INFERIOR (MÓVIL) -->
     <nav class="bottom-nav">
-        <div class="nav-item">
-            <a href="index.html" id="nav-inicio">
-                <i class="fas fa-home"></i>
-                <span>Inicio</span>
-            </a>
-        </div>
-        <div class="nav-item">
-            <a href="productos.html" id="nav-productos" class="active">
-                <i class="fas fa-shopping-bag"></i>
-                <span>Productos</span>
-            </a>
-        </div>
-        <div class="nav-item">
-            <a href="index.html#buscar" id="nav-buscar">
-                <i class="fas fa-search"></i>
-                <span>Buscar</span>
-            </a>
-        </div>
-        <div class="nav-item">
-            <a href="index.html#carrito" id="nav-carrito">
-                <i class="fas fa-shopping-cart"></i>
-                <span>Carrito</span>
-                <span id="contador-carrito" class="badge hidden">0</span>
-            </a>
-        </div>
-        <div class="nav-item">
-            <a href="index.html#perfil" id="nav-perfil">
-                <i class="fas fa-user"></i>
-                <span>Perfil</span>
-            </a>
-        </div>
+        <ul class="nav-list">
+            <li class="nav-item"><a href="index.html" id="nav-inicio"><i class="fas fa-home"></i><span data-i18n="bottom.home">Inicio</span></a></li>
+            <li class="nav-item"><a href="tiendas.html" id="nav-tiendas"><i class="fas fa-store"></i><span>Tiendas</span></a></li>
+            <li class="nav-item"><a href="index.html#buscar" id="nav-buscar"><i class="fas fa-search"></i><span data-i18n="bottom.search">Buscar</span></a></li>
+            <li class="nav-item"><a href="index.html#carrito" id="nav-carrito"><i class="fas fa-shopping-cart"></i><span data-i18n="bottom.cart">Carrito</span><span id="contador-carrito" class="nav-counter hidden">0</span></a></li>
+            <li class="nav-item"><a href="index.html#perfil" id="nav-perfil"><i class="fas fa-user"></i><span data-i18n="bottom.profile">Perfil</span></a></li>
+        </ul>
     </nav>
 
     <!-- MODAL DE AUTENTICACIÓN -->
@@ -392,7 +439,12 @@
             <div id="login-content" class="modal-tab-content">
                 <form id="login-form">
                     <input type="email" placeholder="Correo electrónico" required class="form-input">
-                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <div class="password-input-container">
+                        <input type="password" placeholder="Contraseña" required class="form-input">
+                        <button type="button" class="password-toggle" data-target="login-password" aria-label="Mostrar contraseña">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
                     <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                 </form>
             </div>
@@ -400,7 +452,12 @@
                 <form id="register-form">
                     <input type="text" placeholder="Nombre completo" required class="form-input">
                     <input type="email" placeholder="Correo electrónico" required class="form-input">
-                    <input type="password" placeholder="Contraseña" required class="form-input">
+                    <div class="password-input-container">
+                        <input type="password" placeholder="Contraseña" required class="form-input">
+                        <button type="button" class="password-toggle" data-target="register-password" aria-label="Mostrar contraseña">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
                     <button type="submit" class="btn btn-primary">Registrarse</button>
                 </form>
             </div>
@@ -414,9 +471,14 @@
     <script src="js/modules/utils.js"></script>
     <script src="js/modules/storage.js"></script>
     <script src="js/modules/auth.js"></script>
+    <script src="js/modules/navigation.js"></script>
     <script src="js/modules/categorias.js"></script>
     <script src="js/modules/productos.js"></script>
     <script src="js/modules/imageModal.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- SINCRONIZACIÓN GLOBAL DEL CARRITO -->
+    <script src="js/global-cart-sync.js"></script>
     
     <script>
         // Script de la página de productos
@@ -437,7 +499,13 @@
                 }
 
                 renderAllProducts();
-                updateCartCounter();
+                // Usar la función global de sincronización
+                if (typeof window.syncCartCounterGlobal === 'function') {
+                    window.syncCartCounterGlobal();
+                }
+
+                // Configurar eventos de navegación
+                setupNavigationEvents();
 
                 document.addEventListener('click', function(e) {
                     const categoryCard = e.target.closest('[data-category]');
@@ -446,6 +514,79 @@
                     }
                 });
             });
+
+            // Configurar eventos de navegación como en index.html
+            function setupNavigationEvents() {
+                // Primero actualizar la barra inferior para evitar problemas de renderización
+                refreshBottomNav();
+                
+                // Mapeo de navegación
+                const navMapping = {
+                    'nav-inicio': 'inicio',
+                    'nav-buscar': 'buscar',
+                    'nav-noticias': 'noticias',
+                    'nav-carrito': 'carrito',
+                    'nav-perfil': 'perfil'
+                };
+                
+                Object.keys(navMapping).forEach(id => {
+                    document.getElementById(id)?.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Para páginas externas, redirigir al index.html con la sección
+                        if (navMapping[id] === 'noticias') {
+                            // Noticias requiere autenticación
+                            if (!window.AuthModule || !window.AuthModule.isAuthenticated()) {
+                                window.location.href = 'index.html?section=noticias&auth=required';
+                                return;
+                            }
+                        }
+                        
+                        if (navMapping[id] === 'perfil') {
+                            // Perfil requiere autenticación
+                            if (!window.AuthModule || !window.AuthModule.isAuthenticated()) {
+                                window.location.href = 'index.html?section=perfil&auth=required';
+                                return;
+                            }
+                        }
+                        
+                        // Redirigir al index.html con la sección correspondiente
+                        window.location.href = `index.html?section=${navMapping[id]}`;
+                    });
+                });
+            }
+
+            // Función para actualizar la barra inferior y evitar doble renderización
+            function refreshBottomNav() {
+                console.log('Actualizando barra inferior en productos.html...');
+                
+                // Limpiar completamente todos los estados activos de forma segura
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.querySelectorAll('.nav-item a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // No establecer ningún elemento como activo en productos.html
+                // ya que no hay un botón específico para productos
+                
+                // Re-actualizar el contador del carrito en la barra inferior
+                if (typeof window.syncCartCounterGlobal === 'function') {
+                    window.syncCartCounterGlobal();
+                }
+                
+                // Configurar eventos específicos si es necesario
+                setupBottomNavEvents();
+            }
+
+            // Configurar eventos específicos de la barra inferior para productos
+            function setupBottomNavEvents() {
+                // Usar la función global de sincronización para el contador del carrito
+                if (typeof window.syncCartCounterGlobal === 'function') {
+                    window.syncCartCounterGlobal();
+                }
+            }
 
             function renderAllProducts() {
                 const container = document.getElementById('todos-productos');
@@ -461,27 +602,26 @@
                 const productsHtml = products.map(product => {
                     const currentUser = window.StorageModule ? window.StorageModule.getCurrentUser() : null;
                     const isFavorite = currentUser?.favoritos?.includes(product.id) || false;
+                    const name = product.nombre; // Simplificado, sin i18n por ahora
+                    const storeName = product.tienda?.nombre || 'Tienda';
                     
                     return `
-                        <div class="product-card-custom" onclick="window.location.href='index.html?product=${product.id}'">
-                            <div class="product-image-wrapper">
-                                <img src="${product.imagen}" alt="${product.nombre}" loading="lazy">
-                                <button class="favorite-btn-custom ${isFavorite ? 'active' : ''}" 
-                                        onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
-                                        aria-label="Agregar a favoritos">
-                                    <i class="fas fa-heart"></i>
+                        <div class="product-card" onclick="window.location.href='index.html?product=${product.id}'">
+                            <div class="product-image-container">
+                                <img src="${product.imagen}" alt="${name}" class="product-image">
+                                <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite('${product.id}')">
+                                    <i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i>
                                 </button>
                             </div>
-                            <div class="product-info-custom">
-                                <h3 class="product-name-custom">${product.nombre}</h3>
-                                <p class="product-store-custom">${product.tienda?.nombre || 'Tienda'}</p>
-                                <div class="product-footer-custom">
-                                    <span class="product-price-custom">C$${product.precio.toFixed(2)}</span>
-                                    <button class="btn-cart-custom" 
-                                            onclick="event.stopPropagation(); addToCart('${product.id}')">
-                                        <i class="fas fa-cart-plus"></i>
-                                    </button>
-                                </div>
+                            <div class="product-content">
+                                <h3 class="product-name">${name}</h3>
+                                <p class="store-name">${storeName}</p>
+                                <p class="product-price">C$${product.precio.toFixed(2)}</p>
+                                <button class="btn btn-primary add-to-cart" 
+                                        onclick="event.stopPropagation(); window.app.addToCart('${product.id}')"
+                                        title="Agregar al carrito">
+                                    <i class="fas fa-shopping-cart"></i> <span class="add-to-cart-text">Agregar</span>
+                                </button>
                             </div>
                         </div>
                     `;
@@ -505,27 +645,26 @@
                 const productsHtml = filtered.map(product => {
                     const currentUser = window.StorageModule ? window.StorageModule.getCurrentUser() : null;
                     const isFavorite = currentUser?.favoritos?.includes(product.id) || false;
+                    const name = product.nombre; // Simplificado, sin i18n por ahora
+                    const storeName = product.tienda?.nombre || 'Tienda';
                     
                     return `
-                        <div class="product-card-custom" onclick="window.location.href='index.html?product=${product.id}'">
-                            <div class="product-image-wrapper">
-                                <img src="${product.imagen}" alt="${product.nombre}" loading="lazy">
-                                <button class="favorite-btn-custom ${isFavorite ? 'active' : ''}" 
-                                        onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
-                                        aria-label="Agregar a favoritos">
-                                    <i class="fas fa-heart"></i>
+                        <div class="product-card" onclick="window.location.href='index.html?product=${product.id}'">
+                            <div class="product-image-container">
+                                <img src="${product.imagen}" alt="${name}" class="product-image">
+                                <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite('${product.id}')">
+                                    <i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i>
                                 </button>
                             </div>
-                            <div class="product-info-custom">
-                                <h3 class="product-name-custom">${product.nombre}</h3>
-                                <p class="product-store-custom">${product.tienda?.nombre || 'Tienda'}</p>
-                                <div class="product-footer-custom">
-                                    <span class="product-price-custom">C$${product.precio.toFixed(2)}</span>
-                                    <button class="btn-cart-custom" 
-                                            onclick="event.stopPropagation(); addToCart('${product.id}')">
-                                        <i class="fas fa-cart-plus"></i>
-                                    </button>
-                                </div>
+                            <div class="product-content">
+                                <h3 class="product-name">${name}</h3>
+                                <p class="store-name">${storeName}</p>
+                                <p class="product-price">C$${product.precio.toFixed(2)}</p>
+                                <button class="btn btn-primary add-to-cart" 
+                                        onclick="event.stopPropagation(); window.app.addToCart('${product.id}')"
+                                        title="Agregar al carrito">
+                                    <i class="fas fa-shopping-cart"></i> <span class="add-to-cart-text">Agregar</span>
+                                </button>
                             </div>
                         </div>
                     `;
@@ -535,61 +674,64 @@
             }
 
             function updateCartCounter() {
-                if (!window.StorageModule) return;
-
-                const currentUser = window.StorageModule.getCurrentUser();
-                const cartCount = currentUser?.carrito?.reduce((sum, item) => sum + (item.cantidad || 0), 0) || 0;
-
-                document.querySelectorAll('#contador-carrito, #contador-carrito-desk').forEach(el => {
-                    if (el) {
-                        el.textContent = cartCount;
-                        el.style.display = cartCount > 0 ? 'flex' : 'none';
-                        el.classList.toggle('hidden', cartCount === 0);
-                    }
-                });
+                // Usar la función global de sincronización
+                if (typeof window.syncCartCounterGlobal === 'function') {
+                    window.syncCartCounterGlobal();
+                } else if (typeof window.syncCartCounter === 'function') {
+                    window.syncCartCounter();
+                }
             }
 
-            window.addToCart = function(productId) {
-                if (!window.AuthModule || !window.AuthModule.isAuthenticated()) {
-                    if (window.AuthModule) window.AuthModule.showModal('login');
-                    return;
-                }
-
-                const currentUser = window.StorageModule.getCurrentUser();
-                const existingItem = currentUser.carrito.find(item => item.id === productId);
-
-                if (existingItem) {
-                    existingItem.cantidad++;
-                } else {
-                    currentUser.carrito.push({ id: productId, cantidad: 1 });
-                }
-
-                window.StorageModule.updateUser(currentUser);
+            // Escuchar eventos de actualización del carrito
+            window.addEventListener('cartUpdated', function() {
                 updateCartCounter();
+            });
 
-                if (window.UtilsModule) {
-                    const product = window.productosData.find(p => p.id === productId);
-                    window.UtilsModule.notify('cart.added', `'${product.nombre}' agregado al carrito`, 'exito');
+            // Sincronización más eficiente - solo cuando la página está visible
+            let syncInterval;
+            function startSync() {
+                syncInterval = setInterval(updateCartCounter, 3000); // Reducido a 3 segundos
+            }
+            
+            function stopSync() {
+                if (syncInterval) {
+                    clearInterval(syncInterval);
                 }
-            };
+            }
+            
+            // Solo sincronizar cuando la página está visible para no afectar rendimiento móvil
+            if (document.visibilityState === 'visible') {
+                startSync();
+            }
+            
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'visible') {
+                    startSync();
+                } else {
+                    stopSync();
+                }
+            });
 
             window.toggleFavorite = function(productId) {
-                if (!window.AuthModule || !window.AuthModule.isAuthenticated()) {
-                    if (window.AuthModule) window.AuthModule.showModal('login');
-                    return;
-                }
+                // Usar la función del sistema principal si está disponible
+                if (typeof window.app?.toggleFavorite === 'function') {
+                    window.app.toggleFavorite(productId);
+                } else if (window.AuthModule && window.AuthModule.isAuthenticated()) {
+                    // Fallback local
+                    const currentUser = window.StorageModule.getCurrentUser();
+                    const index = currentUser.favoritos.indexOf(productId);
 
-                const currentUser = window.StorageModule.getCurrentUser();
-                const index = currentUser.favoritos.indexOf(productId);
+                    if (index === -1) {
+                        currentUser.favoritos.push(productId);
+                    } else {
+                        currentUser.favoritos.splice(index, 1);
+                    }
 
-                if (index === -1) {
-                    currentUser.favoritos.push(productId);
+                    window.StorageModule.updateUser(currentUser);
+                    renderAllProducts();
                 } else {
-                    currentUser.favoritos.splice(index, 1);
+                    if (window.AuthModule) window.AuthModule.showModal('login');
                 }
-
-                window.StorageModule.updateUser(currentUser);
-                renderAllProducts();
             };
 
         })();
